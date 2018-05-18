@@ -15,16 +15,16 @@ function login(req,res,next){
       res.redirect('/login');
 };
 
-router.get('/',login,function(req,res,next){
+router.get('/',function(req,res,next){
   res.redirect('/register');
 });
 router.get('/new_administradorCount',login,function(req,res,next){
   res.render('admin/users/newAdministrador');
 });
-router.get('/new_restaurantCount',login,function(req,res,next){
+router.get('/new_restaurantCount',function(req,res,next){
   res.render('count/newRestaurant');
 });
-router.get('/new_clientCount',login,function(req,res,next){
+router.get('/new_clientCount',function(req,res,next){
   res.render('count/newClient');
 });
 // crear nuevo cliente
