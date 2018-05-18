@@ -10,18 +10,19 @@ function login(req,res,next){
     next();
   }else if(req.session.userType == 'Administrador'){
       res.redirect('/admin');
+  }else if(req.session.userType == 'Cliente'){
+      res.redirect('/');
   }else
-    res.redirect('/login');
-
+      res.redirect('/login');
 };
 
-router.get('/',function(req,res,next){
-  res.render('adminRestaurant/home');
+router.get('/',login,function(req,res,next){
+  res.redirect('adminRestaurant/profile');
 });
 function profile(req, res, alert) {
   var email = req.session.email;
-  email= 'juanito@gmail.com';
-  req.session.email = email;
+  //email= 'juanito@gmail.com';
+  //req.session.email = email;
   var dataS = [];
   subscriptorModel.getSubscriptor(email,function(error,data) {
     if (typeof data != 'undefined' && data.length > 0){
@@ -44,11 +45,11 @@ function profile(req, res, alert) {
       res.render('adminRestaurant/profile',{dataR: [],dataC: categorias,dataS: dataS,alert: {error: '* No existen registross'}});
   });  
 }
-router.get('/profile',function(req,res,next){
+router.get('/profile',login,function(req,res,next){
   profile(req,res,{});
 });
 
-router.post('/update_Restaurant',function(req,res,next){
+router.post('/update_Restaurant',login,function(req,res,next){
   var restaurantData =[{nombre: req.body.nombreRestaurant, descripcion: req.body.descripcion, direccion: req.body.direccion,clasificacion: req.body.clasificacion}, req.session.restaurante.idRestaurante];
   restaurantModel.updateRestaurant(restaurantData,function(error,data){
     if (error)
@@ -58,7 +59,7 @@ router.post('/update_Restaurant',function(req,res,next){
   });
 });
 
-router.post('/update_subscriptor',function(req,res,next){
+router.post('/update_subscriptor',login,function(req,res,next){
   var subcriptorData =[{nombre: req.body.nameUpdate, apellidos: req.body.apellidosUpdate, domicilio: req.body.domicilioUpdate,telefono: req.body.telUpdate,fecha_nac: req.body.fecha_nacUpdate}, req.session.email];
   console.log(subcriptorData);
   subscriptorModel.updateSubscriptor(subcriptorData,function(error,data){

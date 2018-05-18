@@ -2,18 +2,29 @@ var express = require('express');
 var router = express.Router();
 var clientModel = require('../serv_modules/clientModel');
 var userModel = require('../serv_modules/userModel');
-var restaurantModel = require('../serv_modules/restaurantModel')
+var restaurantModel = require('../serv_modules/restaurantModel');
 
-router.get('/',function(req,res,next){
+function login(req,res,next){
+  if(req.session.userType == 'Administrador'){
+    next();
+  }else if(req.session.userType == 'Restaurante'){
+      res.redirect('/adminRestaurant');
+  }else if(req.session.userType == 'Cliente'){
+      res.redirect('/');
+  }else
+      res.redirect('/login');
+};
+
+router.get('/',login,function(req,res,next){
   res.redirect('/register');
 });
-router.get('/new_administradorCount',function(req,res,next){
+router.get('/new_administradorCount',login,function(req,res,next){
   res.render('admin/users/newAdministrador');
 });
-router.get('/new_restaurantCount',function(req,res,next){
+router.get('/new_restaurantCount',login,function(req,res,next){
   res.render('count/newRestaurant');
 });
-router.get('/new_clientCount',function(req,res,next){
+router.get('/new_clientCount',login,function(req,res,next){
   res.render('count/newClient');
 });
 // crear nuevo cliente
@@ -111,7 +122,7 @@ router.post('/newRestaurant',function(req,res,next){
     }
   });
 });
-router.post('/new_administradorCount',function(req,res,next){
+router.post('/new_administradorCount',login,function(req,res,next){
   var user = req.body.email;
   console.log(user);
   userModel.getUser(user,function(eror,data){

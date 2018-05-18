@@ -4,17 +4,27 @@ var reservationModel = require('../serv_modules/reservationModel');
 var clientModel = require('../serv_modules/clientModel');
 var restaurantModel = require('../serv_modules/restaurantModel');
 
+function login(req,res,next){
+  if(req.session.userType == 'Administrador'){
+    next();
+  }else if(req.session.userType == 'Restaurante'){
+      res.redirect('/adminRestaurant');
+  }else if(req.session.userType == 'Cliente'){
+      res.redirect('/');
+  }else
+      res.redirect('/login');
+};
 
-router.get('/',function(req,res,next){
+router.get('/',login,function(req,res,next){
   res.redirect('/admin/reservations/list');
 });
-router.get('/new_Reservation',function(req,res,next){
+router.get('/new_Reservation',login,function(req,res,next){
   res.redirect('/admin/reservations/list');
 });
-router.get('/update_Reservation',function(req,res,next){
+router.get('/update_Reservation',login,function(req,res,next){
   res.redirect('/admin/reservations/list');
 });
-router.get('/del_Reservation',function(req,res,next){
+router.get('/del_Reservation',login,function(req,res,next){
   res.redirect('/admin/reservations/list');
 });
 
@@ -42,11 +52,11 @@ function reservationsAll(res,alert) {
     }
   });
 }
-router.get('/list',function(req,res,next){
+router.get('/list',login,function(req,res,next){
   reservationsAll(res,{});
 });
 
-router.post('/new_Reservation',function(req,res,next){
+router.post('/new_Reservation',login,function(req,res,next){
   var reservationData = {
     fecha: req.body.fecha,
     hora: req.body.hora,
@@ -69,7 +79,7 @@ router.post('/new_Reservation',function(req,res,next){
 });
 
 //ocuupan login
-router.post('/del_Reservation',function(req, res, next){
+router.post('/del_Reservation',login,function(req, res, next){
     var idReservation = req.body.selectDelRes;
     reservationModel.delReservation(idReservation,function(error,data){
       if (data && data.affectedRows > 0)
@@ -78,7 +88,7 @@ router.post('/del_Reservation',function(req, res, next){
         reservationsAll(res,{error: '*Ocurrio un problema al eliminar la Reservación'});
     });
 });
-router.post('/update_Reservation',function(req,res,next){
+router.post('/update_Reservation',login,function(req,res,next){
   var reservationData = {
     fecha: req.body.fechaupdate,
     hora: req.body.horaupdate,

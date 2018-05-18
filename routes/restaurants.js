@@ -2,7 +2,18 @@ var express = require('express');
 var router = express.Router();
 var restaurantModel = require('../serv_modules/restaurantModel');
 
-router.get('/',function(req,res,next){
+function login(req,res,next){
+  if(req.session.userType == 'Administrador'){
+    next();
+  }else if(req.session.userType == 'Restaurante'){
+      res.redirect('/adminRestaurant');
+  }else if(req.session.userType == 'Cliente'){
+      res.redirect('/');
+  }else
+      res.redirect('/login');
+};
+
+router.get('/',login,function(req,res,next){
   res.redirect('/admin/restaurants/list');
 });
 
@@ -15,21 +26,21 @@ function restaurantsAll(res,alert) {
     }
   });
 }
-router.get('/list',function(req,res,next){
+router.get('/list',login,function(req,res,next){
   restaurantsAll(res,{});
 });
 
-router.get('/update_Restaurant',function(req,res,next){
+router.get('/update_Restaurant',login,function(req,res,next){
   res.redirect('/admin/restaurants/list');
 });
 
-router.get('/del_Restaurant',function(req,res,next){
+router.get('/del_Restaurant',login,function(req,res,next){
   res.redirect('/admin/restaurants/list');
 });
 
 
 //ocuupan login
-router.post('/del_Restaurant',function(req, res, next){
+router.post('/del_Restaurant',login,function(req, res, next){
     var idRestaurant = req.body.selectDelRest;
     console.log(idRestaurant);
     restaurantModel.delRestaurant(idRestaurant,function(error,data){
@@ -40,7 +51,7 @@ router.post('/del_Restaurant',function(req, res, next){
     });
 });
 
-router.post('/update_Restaurant',function(req,res,next){
+router.post('/update_Restaurant',login,function(req,res,next){
   var restaurantData =[{nombre: req.body.nameUpdate, descripcion: req.body.descriptionUpdate, direccion: req.body.direccionUpdate,clasificacion: req.body.clasificacion}, req.body.selectUpdRest];
   restaurantModel.updateRestaurant(restaurantData,function(error,data){
     if (error)

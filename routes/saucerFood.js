@@ -5,6 +5,16 @@ var restaurantModel = require('../serv_modules/restaurantModel');
 var fs = require('fs');
 var multer  = require('multer');
 
+function login(req,res,next){
+  if(req.session.userType == 'Administrador'){
+    next();
+  }else if(req.session.userType == 'Restaurante'){
+      res.redirect('/adminRestaurant');
+  }else if(req.session.userType == 'Cliente'){
+      res.redirect('/');
+  }else
+      res.redirect('/login');
+};
 //imagenUp server
 var storage = multer.diskStorage({
   destination: function(req, file, callback){
@@ -21,7 +31,7 @@ function isNumber(number) {
   return (/^(\d)+((\.)(\d){1,2})?$/.test(number));
 }
 
-router.get('/',function(req,res,next){
+router.get('/',login,function(req,res,next){
   res.redirect('/admin/saucerFoods/list');
 });
 
@@ -41,21 +51,21 @@ function saucerFoodAll(res,alert) {
     }
   });
 }
-router.get('/list',function(req,res,next){
+router.get('/list',login,function(req,res,next){
   saucerFoodAll(res,{});
 });
-router.get('/new_SaucerFood',function(req,res,next){
+router.get('/new_SaucerFood',login,function(req,res,next){
   res.redirect('/admin/saucerFoods');
 });
-router.get('/update_SaucerFood',function(req,res,next){
+router.get('/update_SaucerFood',login,function(req,res,next){
   res.redirect('/admin/saucerFoods');
 });
-router.get('/del_SaucerFood',function(req,res,next){
+router.get('/del_SaucerFood',login,function(req,res,next){
   res.redirect('/admin/saucerFoods');
 });
 
 //ocuupan login
-router.post('/new_SaucerFood',function(req, res, next){
+router.post('/new_SaucerFood',login,function(req, res, next){
     upload(req, res, function(err) {//subida de imagen
     if(err)  return saucerFoodAll(res,{error: 'Error al subir la imagen'});
     
@@ -91,7 +101,7 @@ router.post('/new_SaucerFood',function(req, res, next){
 
 
 //ocuupan login
-router.post('/del_SaucerFood',function(req, res, next){
+router.post('/del_SaucerFood',login,function(req, res, next){
     var idSaucerFood = req.body.selectDelRest;
     saucerFoodModel.delSaucerFood(idSaucerFood,function(error,data){
       if (data && data.affectedRows > 0)
@@ -101,7 +111,7 @@ router.post('/del_SaucerFood',function(req, res, next){
     });
 });
 
-router.post('/update_SaucerFood',function(req,res,next){
+router.post('/update_SaucerFood',login,function(req,res,next){
   uploadUpdate(req, res, function(err) {//subida de imagen
     if(err)  return saucerFoodAll(res,{error: 'Error al subir la imagen'});
     
