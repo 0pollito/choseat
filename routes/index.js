@@ -29,10 +29,23 @@ router.get('/logout',function(req,res){
 router.get('/search',function(req,res){
   res.redirect('/');
 });
-router.get('/restaurants',function(req,res){
-  req.body.
-  res.render('restaurants');
+router.get('/restaurantProfile',function(req,res){
+  saucerFoodAllforRest(res,req,{});
 });
+
+function saucerFoodAllforRest(res,req,alert) {
+  var idRestaurante = req.body.rest;
+  console.log(idRestaurante);
+  saucerFoodModel.getSaucerFoodRest(idRestaurante,function(error,data) {
+    var dataP = [];
+    if (typeof data != 'undefined' && data.length > 0) {
+      dataP = data;
+      res.render('restaurantview', {dataP: dataP, alert: alert});
+    }else{
+      res.render('restaurantview', {dataP: dataP, alert: {error: 'No existen registros.'}});
+    }
+  });
+}
 
 function restaurantsCat(res,alert,categoria) {
   restaurantModel.getRestaurantsCat(categoria,function(error,data) {
@@ -44,6 +57,7 @@ function restaurantsCat(res,alert,categoria) {
   });
 }
 router.get('/gour',function(req,res){
+
   restaurantsCat(res,{},'Restaurante Gourmet');
 });
 router.get('/desp',function(req,res){

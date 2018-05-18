@@ -21,7 +21,9 @@ block content
                 i.material-icons.right close
               p= item.descripcion
             .card-action
-              a(href="#") Ver perfil
+              form(method="get", action="/restaurantProfile")
+                input.hide(name='rest',value=item.idRestaurante)
+                button.btn(type='submit') Ver perfil
 
 
 

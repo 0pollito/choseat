@@ -22,6 +22,10 @@ footer .page-footer{
   #searchP::placeholder { color: black;  font-weight: bold; }
   
 
+.parallax-container {
+  max-height: 350px;
+}
+        
 
 @media only screen and (max-width : 992px) {
   header, main, footer {
