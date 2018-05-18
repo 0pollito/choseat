@@ -1,0 +1,51 @@
+extends layout
+
+block content
+  h2.blue-text Administración de Datos
+  .container
+    .row
+      h5 nombre usuario
+      p Información de Cuenta
+    .divider
+    .col.s12.m4
+      .row
+        a.btn.hide#alert(onclick="Materialize.toast('#{alert}', 6000)")
+        ul.collapsible(data-collapsible='accordion')
+            li
+              .collapsible-header
+                i.material-icons add
+                | Actualizar Nombre
+              .collapsible-body
+                form#formAgregar.center(method='post', action='/admin/count/update_name')
+                  .container
+                    .input-field.col.s12
+                      input.validate(name='nombre', type='text', required)
+                      label(for='nombre',data-error="Rellenar este campo") Nombre:
+                  button.btn.green.darken-1(type='submit') Guardar
+
+            li
+              .collapsible-header
+                i.material-icons delete
+                | Eliminar Cuenta
+              .collapsible-body
+                form#formEliminar.center(method='post',action='/admin/count/del_count_admin')
+                  p ¿Esta seguro que quiere eliminar su cuenta?
+                  button.btn.red(type='submit') Eliminar
+
+            li
+              .collapsible-header
+                i.material-icons edit
+                | Modificar Contraseña
+              .collapsible-body
+                form#formModificar.center(method='post',action='/admin/count/update_password')
+                  .container
+                    .input-field.col.s12
+                      input.validate(name='contraseña', type='password', required)
+                      label(for='nombreUpdate',data-error="Rellenar este campo") contraseña:
+                    .input-field.col.s12
+                      input.validate(name='contraseñaUpdate', type='password', required)
+                      label(for='nombreUpdate',data-error="Rellenar este campo") Nuevo contraseña:
+                    .input-field.col.s12
+                      input.validate(name='contraseñaUpdateVal', type='password', required)
+                      label(for='nombreUpdate',data-error="Rellenar este campo") Confirmar nueva contraseña:
+                  button.btn.green.darken-1(type='submit') Modificar

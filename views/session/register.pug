@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  .row
+    .card.col.s12.m4.offset-m4
+      .card-content
+        span.card-title Elige una cuenta Choseat:
+        p Con una cuenta Cliente usted podrá realizar reservaciones de su Restaurante favorito, buscar sugerencias de platillos, obtener cupones, promociones y mas 
+        .row
+          .col.s12.center
+            a.btn.waves-effect.waves-light.green.darken-1(href='/count/new_clientCount') Cliente
+        p Con una cuenta Restaurante usted podra administrar los platillos que quiere promocionar, realizar promociones, etc.
+        .row
+          .col.s12.center
+            a.btn.waves-effect.waves-light.green.darken-1(href='/count/new_restaurantCount') Restaurante
+      
+      .card-action.center
+        button.btn.waves-effect.waves-light.red.darken-1 Cancelar
+          
+

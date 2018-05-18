@@ -1,0 +1,29 @@
+extends ../../session/layout
+
+block content
+  form(method='post',action='/count/new_administradorCount')
+    .row
+      .card.col.s12.m6.offset-m3
+        .card-content
+          .card-title: h4 Crear una cuenta
+          .row
+            h5.red-text * Este tipo de cuenta solo es para personal Autorizado.
+            |¿Ya tiene una cuenta ?
+            a(href='/login')  Inicie sesión aquí.
+
+          .input-field.col.s12.m6.offset-m3
+              #{alert}  #{text}
+              input(type='email',name='email',required,autofocus)
+              label Correo Electronico:
+          .input-field.col.s12.m6
+              input.form-control(type='password',name='password',required,autofocus)
+              label Contraseña:
+          .input-field.col.s12.m6
+              input.form-control(type='password',name='passwordConfirm',required,autofocus)
+              label Confirmar Contraseña:
+          .row
+            .col.s12
+               input.filled-in#acuerdo(type='checkbox',value='acuerdo', required)
+               label(for='acuerdo') Doy mi consentimiento para la utilización de los datos por parte de nombre de app expuestas en su Declaraciones de privacidad y a las condiciones expresadas en su Acuerdo de licencia de usuario final.
+        .card-action.center
+          button.btn.waves-effect.waves-light.green.darken-1(type='submit') Crear cuenta

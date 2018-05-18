@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  form(method='post',action='/count/reovery')
+    .row
+      .card.col.s12.m4.offset-m4.transparent
+        .card-content
+          .card-title.red-text Contraseña Olvidada
+          p Sin problema, esto le puede pasar a cualquiera.
+          | Le enviaremos un mensaje con instrucciones para restablecer su contraseña.
+          input(type='email',id='inputEmail',placeholder='Correo Electronico',required,autofocus)
+        .card-action.center
+          a.btn(href='/')  Cancelar
+          button.btn.waves-effect.waves-light.green.darken-1(type='submit') Enviar

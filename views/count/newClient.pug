@@ -1,0 +1,44 @@
+extends layout
+
+block content
+  form(method='post',action='/count/new_clientCount')
+    .row
+      .card.col.s12.m6.offset-m3
+        .card-content
+          .card-title Crear una cuenta
+          .row
+            p Su cuenta le da acceso a promociones, descuentos y funciones avanzadas.
+            |¿Ya tiene una cuenta nombre de app?
+            a(href='/login')  Inicie sesión aquí.
+
+          .input-field.col.s12.m5
+              input(type='text',name='nombre',required,autofocus)
+              label Nombre:
+          .input-field.col.s12.m7
+              input(type='text',name='apellidos',required,autofocus)
+              label Apellidos:
+          .input-field.col.s12.m6
+              #{alert}  #{text}
+              i.material-icons.prefix email
+              input.validate#email(type='email', name='inputEmail', autofocus, required)
+              label(for='email') Correo Electronico:
+              span.helper-text(data-error='formato de correo electronico incorrecto' data-success='correcto')
+          .input-field.col.s12.m6
+              input.form-control(type='text',name='password',required,autofocus)
+              label Contraseña:
+          .input-field.col.s12
+              input(type='text',name='domicilio',required,autofocus)
+              label Domicilio:
+          .input-field.col.s12.m4
+              input.datepicker(type='text',name='fecha_nac',required,autofocus)
+              label Fecha de Nacimiento:
+          .input-field.col.s12.m6.offset-m1
+              i.material-icons.prefix phone
+              input(type='text',name='tel',required,autofocus)
+              label Teléfono:
+          .row
+            .col.s12
+               input.filled-in#acuerdo(type='checkbox',value='acuerdo', required)
+               label(for='acuerdo') Doy mi consentimiento para la utilización de los datos por parte de nombre de app expuestas en su Declaraciones de privacidad y a las condiciones expresadas en su Acuerdo de licencia de usuario final.
+        .card-action.center
+          button.btn.waves-effect.waves-light.green.darken-1(type='submit') Crear cuenta

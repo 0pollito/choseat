@@ -1,0 +1,161 @@
+extends layout
+
+block content
+  .row
+    h4 Reservaciones
+    .input-field.col.s12.m3
+    .input-field.col.s12.m3
+      a.modal-trigger.btn(data-target='insert') 
+        i.material-icons.left add
+        | Agregar
+    .input-field.col.s12.m3
+      a.modal-trigger.btn(data-target='delete')
+        i.material-icons.left delete 
+        | Eliminar
+    .input-field.col.s12.m3
+      a.btn.modal-trigger(data-target='update')
+        i.material-icons.left edit
+        | Modificar
+    .col.s12
+      if alert.success
+        h6.green-text.text-accent-4.right#alert #{alert.success}
+          i.close.right.material-icons close
+      if alert.error
+        h6.red-text.text-accent-4.right#alert  #{alert.error}
+          i.close.material-icons close
+  .row
+    .col.s12
+      .card-panel
+        .row
+          table#table_cont.responsive-table.display.centered
+            thead
+              tr
+                th Id Reservación
+                th Fecha
+                th Hora
+                th N. Personas
+                th Vigencia
+                th Cliente
+                th Restaurante
+                th Cupon
+                th Estado
+                th Activo
+            tbody
+              each item in dataR
+                tr
+                  td= item.idReservacion
+                  td= item.fecha
+                  td= item.hora
+                  td= item.num_personas
+                  td= item.vigencia
+                  td= item.cliente
+                  td= item.restaurante
+                  td= item.cupon
+                  td= item.estado
+                  td= item.activo
+
+        
+        // Modal Structure
+      #insert.modal.bottom-sheet
+        .modal-content
+          h4 Agregar Nueva Reservación 
+            a.modal-action.modal-close.waves-effect.waves-green.btn-flat.right
+              i.material-icons close
+          form#formInsert.center(method='post', action='/admin/reservations/new_Reservation')
+              .row
+                .input-field.col.s12.m2
+                  select.validate(name='selectCliente',required)
+                    option(value='', disabled, selected) Seleccionar
+                    each item in dataC
+                      option(value=item.idCliente)= item.nombre +" "+item.apellidos
+                  label(for='selectCliente',data-error='Seleccione una opción') Cliente
+                .input-field.col.s12.m3
+                  select.validate(name='selectRest',required)
+                    option(value='', disabled, selected) Seleccionar
+                    each item in dataRest
+                      option(value=item.idRestaurante)= item.nombre
+                  label(for='selectRest',data-error='Seleccione una opción') Restaurante
+                .input-field.col.s12.m2
+                  input.datepicker(type='text', name='fecha', required)
+                  label Fecha:
+                .input-field.col.s12.m1
+                  input.timepicker(type='text', name='hora', required)
+                  label Hora:
+                .input-field.col.s12.m2
+                  input.validate(name='personas', type='text', required)
+                  label(for='nombre',data-error="Formato no valido") Num. Personas:
+                .input-field.col.s12.m2
+                  input.datepicker(type='text', name='vigencia', required)
+                  label Vigencia:
+                .input-field.col.s12.m2
+                  select.validate(name='selectEstado',required)
+                    option(value='', disabled, selected) Seleccionar
+                    option Disponible
+                    option No disponible
+                  label(for='selectEstado',data-error='Seleccione una opción') Estado
+              button.btn.green.darken-1(type='submit') Aceptar
+
+      
+      // Modal Structure
+      #delete.modal.bottom-sheet
+        .modal-content
+          h4 Eliminar Reservación
+            a.modal-action.modal-close.waves-effect.waves-green.btn-flat.right
+              i.material-icons close
+          form#formEliminar.center(method='post',action='/admin/reservations/del_Reservation')
+              .row
+                .input-field.col.s12.m4.offset-m4
+                  select.validate(name='selectDelRes',required)
+                    option(value='', disabled, selected) Seleccionar
+                    each item in dataR
+                      option(value=item.idReservacion)= item.idReservacion
+                  label Reservaciones
+                .col.s12
+                  p.center ¿Está seguro que quiere eliminar la reservación?.
+              button.btn.red(type='submit') Eliminar
+
+      // Modal Structure
+      #update.modal.bottom-sheet
+        .modal-content
+          h4 Modificar Reservación
+            a.modal-action.modal-close.waves-effect.waves-green.btn-flat.right
+              i.material-icons close
+          form#formModificar.center(method='post',action='/admin/reservations/update_Reservation')
+            .row
+              .input-field.col.s12.m2
+                select.validate(name='selectResupdate',required)
+                  option(value='', disabled, selected) Seleccionar
+                  each item in dataR
+                    option(value=item.idReservacion)= item.idReservacion
+                label Reservaciones
+              .input-field.col.s12.m2
+                select.validate(name='selectClienteupdate',required)
+                  option(value='', disabled, selected) Seleccionar
+                  each item in dataC
+                    option(value=item.idCliente)= item.nombre +" "+item.apellidos
+                label(for='selectClienteupdate',data-error='Seleccione una opción') Cliente
+              .input-field.col.s12.m3
+                select.validate(name='selectRestupdate',required)
+                  option(value='', disabled, selected) Seleccionar
+                  each item in dataRest
+                    option(value=item.idRestaurante)= item.nombre
+                label(for='selectRestupdate',data-error='Seleccione una opción') Restaurante
+              .input-field.col.s12.m2
+                input.datepicker(type='text', name='fechaupdate', required)
+                label Fecha:
+              .input-field.col.s12.m1
+                input.timepicker(type='text', name='horaupdate', required)
+                label Hora:
+              .input-field.col.s12.m2
+                input.validate(name='personasupdate', type='text', required)
+                label(for='personasupdate',data-error="Formato no valido") Num. Personas:
+              .input-field.col.s12.m2
+                input.datepicker(type='text', name='vigenciaupdate', required)
+                label Vigencia:
+              .input-field.col.s12.m2
+                select.validate(name='selectEstadoupdate',required)
+                  option(value='', disabled, selected) Seleccionar
+                  option Disponible
+                  option No disponible
+                label(for='selectEstadoupdate',data-error='Seleccione una opción') Estado
+            button.btn.green.darken-1(type='submit') Modificar

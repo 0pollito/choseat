@@ -1,0 +1,32 @@
+extends layout
+
+block content
+  .container
+    h4.header.center Bienvenido a Choseat.
+    .row
+      .col.s12.m8.offset-m2
+        form(method='post', action='/authenticate')
+          .card-panel
+            .container.center
+              h5 Iniciar sesión
+              
+              if alertToast
+                h6.red-text #{alertToast}
+              .row
+                .col.s12.m9.offset-m1
+                  .input-field.col.s12
+                    i.material-icons.prefix email
+                    input.validate#email(type='email', name='inputEmail', autofocus, required)
+                    label(for='email') Correo
+                    span.helper-text(data-error='formato de correo electronico incorrecto' data-success='correcto')
+              .row
+                .col.s12.m9.offset-m1
+                  .input-field.col.s12
+                    i.material-icons.prefix security
+                    input.validate#password(type='password', name='inputPassword', required)
+                    label(for='password') Contraseña
+              button.btn.waves-effect.waves-light.green.darken-1(type='submit') Iniciar Sesion
+              .section
+                .row
+                  .col.m6.s12:  a(href="/recovery") Contraseña Olvidada
+                  .col.m6.s12:  a(href="/register") Registrarse

@@ -1,0 +1,92 @@
+extends layout
+
+block content
+  h4 Usuarios
+  .row
+    .col.s12.m7
+      .card-panel
+        table#table_cont.responsive-table.striped.centered
+          thead
+            tr
+              th Id Usuario
+              th Correo
+              th Rol
+              th Activo
+          tbody
+            each item in dataU
+              tr
+                td= item.idUsuario
+                td= item.correo
+                td= item.tipo
+                td= item.activo
+    .col.s12.m5
+      .row
+        if alert.success
+          .card-panel.green-text.text-accent-4#alert
+            h5 #{alert.success}
+              i.close.right.material-icons close
+        if alert.error
+          .card-panel.red-text.text-accent-4#alert
+            h5 #{alert.error}
+              i.close.material-icons close
+        ul.collapsible(data-collapsible='accordion')
+            li
+              .collapsible-header
+                i.material-icons add
+                | Agregar Nuevo Usuario
+              .collapsible-body
+                form#formAgregar.center(method='post', action='/admin/users/new')
+                  .input-field.col.s12.m8.offset-m2
+                    select.validate(name='selectUser',required)
+                      option(value='', disabled, selected) Seleccionar
+                      option(value='Administrador') Administrador de sistema
+                      option(value='Cliente') Cliente
+                      option(value='Restaurante') Administrador de Resturante
+                    label(for='selectUser',data-error='Seleccione una opción') Categoría
+                  button.btn.green.darken-1(type='submit') Aceptar
+
+            li
+              .collapsible-header
+                i.material-icons delete
+                | Eliminar Usuario
+              .collapsible-body
+                form#formEliminar.center(method='post',action='/admin/users/del_User')
+                  .row
+                    .input-field.col.s12.m6.offset-m3
+                      select.validate(name='selectDelArt',required)
+                        option(value='', disabled, selected) Seleccionar
+                        each item in dataU
+                          option(value=item.idUsuario)= item.idUsuario
+                      label Usuarios
+                    .col.s12
+                      p ¿Está seguro que quiere eliminar al usuario?.
+                  button.btn.red(type='submit') Eliminar
+
+            li
+              .collapsible-header
+                i.material-icons edit
+                | Modificar Usuario
+              .collapsible-body
+                form#formModificar.center(method='post',action='/admin/users/update_User')
+                  .input-field.col.s12.m5
+                    select.validate(name='selectUpdUser',required)
+                      option(value='', disabled, selected) Seleccionar
+                      each item in dataU
+                        option(value=item.idUsuario)= item.idUsuario
+                    label(for='selectUpdArt',data-error='Seleccione una opción') Usuario
+                  .input-field.col.s12.m7
+                    input.validate(name='emailUpdate', type='email', required)
+                    label(for='emailUpdate',data-error="Formato no valido") Nuevo Correo:
+                  .input-field.col.s12
+                      i.material-icons.prefix security
+                      input.validate#password(type='password', name='inputPassword', required)
+                      label(for='password') Nueva Contraseña
+                  .input-field.col.s12.m8
+                    select.validate(name='selectUser',required)
+                      option(value='', disabled, selected) Seleccionar
+                      option(value='Administrador') Administrador de sistema
+                      option(value='Cliente') Cliente
+                      option(value='Restaurante') Administrador de Resturante
+                    label(for='selectUser',data-error='Seleccione una opción') Categoría
+
+                  button.btn.green.darken-1(type='submit') Modificar

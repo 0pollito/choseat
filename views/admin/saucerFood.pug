@@ -1,0 +1,137 @@
+extends layout
+
+block content
+  h4 Platillos de Comida
+    if alert.success
+      .card-panel.green-text.text-accent-4#alert
+        h5 #{alert.success}
+          i.close.right.material-icons close
+    if alert.error
+      .card-panel.red-text.text-accent-4#alert
+        h5 #{alert.error}
+          i.close.material-icons close
+  .row
+    .col.s12
+      .card-panel
+        .row
+          table#table_cont.responsive-table.display.centered
+            thead
+              tr
+                th Id Platillo
+                th Restaurante
+                th Nombre
+                th Descripción
+                th Estado
+                th Precio
+                th Imagen
+                th Activo
+            tbody
+              each item in dataP
+                tr
+                  td= item.idPlatillo
+                  td= item.nombreRest
+                  td= item.nombre
+                  td= item.descripcion
+                  td= item.estado
+                  td= item.precio
+                  td= item.imagen
+                  td= item.activo
+    .col.s12
+      .row
+        ul.collapsible(data-collapsible='accordion')
+          li
+            .collapsible-header
+              i.material-icons add
+              | Agregar Nuevo Platillo
+            .collapsible-body
+              form#formInsert.center(method='post', action='/admin/saucerFoods/new_SaucerFood', enctype='multipart/form-data')
+                .row
+                  .input-field.col.s12.m3
+                    select.validate(name='selectRest',required)
+                      option(value='', disabled, selected) Seleccionar
+                      each item in dataR
+                        option(value=item.idRestaurante)= item.nombre
+                    label(for='selectRest',data-error='Seleccione una opción') Restaurante
+                  .input-field.col.s12.m3
+                    input.validate(name='nombre', type='text', required)
+                    label(for='nombre',data-error="Formato no valido") Nombre:
+                  .input-field.col.s12.m4
+                    input.validate(type='text', name='descripcion', required)
+                    label(for='descripcion') Descripción
+                  .input-field.col.s12.m2
+                    select.validate(name='selectEstado',required)
+                      option(value='', disabled, selected) Seleccionar
+                      option Disponible
+                      option No disponible
+                    label(for='selectEstado',data-error='Seleccione una opción') Estado
+                  .input-field.col.s12.m1
+                    input.validate(type='text', name='precio', required)
+                    label(for='precio') Precio
+                  .input-field.col.s12.m4
+                    .file-field.input-field
+                      .btn.blue
+                        input(type='file',name='imagenUp')
+                        | Imagen
+                      .file-path-wrapper
+                        input.file-path.validate(type='text',required)
+                button.btn.green.darken-1(type='submit') Aceptar
+
+          li
+            .collapsible-header
+              i.material-icons delete
+              | Eliminar Platillo
+            .collapsible-body
+              form#formEliminar.center(method='post',action='/admin/saucerFoods/del_saucerFood')
+                .row
+                  .input-field.col.s12.m4.offset-m4
+                    select.validate(name='selectDelRest',required)
+                      option(value='', disabled, selected) Seleccionar
+                      each item in dataP
+                        option(value=item.idPlatillo)= item.nombre
+                    label Restaurantes
+                  .col.s12
+                    p.center ¿Está seguro que quiere eliminar el Platillo?.
+                button.btn.red(type='submit') Eliminar
+
+          li
+            .collapsible-header
+              i.material-icons edit
+              | Modificar Platillo
+            .collapsible-body
+              .row
+                form#formModificar.center(method='post',action='/admin/saucerFoods/update_saucerFood', enctype='multipart/form-data')
+                  .input-field.col.s12.m3
+                    select.validate(name='selectPlatillo',required)
+                      option(value='', disabled, selected) Seleccionar
+                      each item in dataP
+                        option(value=item.idPlatillo)= item.nombre
+                    label(for='selectPlatillo',data-error='Seleccione una opción') Platillo
+                  .input-field.col.s12.m4
+                    select.validate(name='selectUpdRest',required)
+                      option(value='', disabled, selected) Seleccionar
+                      each item in dataR
+                        option(value=item.idRestaurante)= item.nombre
+                    label(for='selectUpdRest',data-error='Seleccione una opción') Restaurante
+                  .input-field.col.s12.m5
+                    input.validate(name='nameUpdate', type='text', required)
+                    label(for='nameUpdate',data-error="Formato no valido") Nuevo nombre:
+                  .input-field.col.s12.m6
+                    input.validate(type='text', name='descriptionUpdate', required)
+                    label(for='descriptionUpdate') Nueva Descripción
+                  .input-field.col.s12.m2
+                    select.validate(name='selectEstadoUpd',required)
+                      option(value='', disabled, selected) Seleccionar
+                      option Disponible
+                      option No disponible
+                    label(for='selectEstadoUpd',data-error='Seleccione una opción') Estado
+                  .input-field.col.s12.m1
+                    input.validate(type='text', name='precioUpdate', required)
+                    label(for='precioUpdate') Precio
+                  .input-field.col.s12.m3
+                    .file-field.input-field
+                      .btn.blue
+                        input(type='file',name='imagenUpd')
+                        | Imagen
+                      .file-path-wrapper
+                        input.file-path.validate(type='text',required)
+                  button.btn.green.darken-1(type='submit') Modificar

@@ -1,0 +1,79 @@
+doctype html
+html
+  head
+    title Administración Rest
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+    link(rel='stylesheet' href='/stylesheets/icons.css' type='text/css')
+    link(rel='stylesheet' href='/stylesheets/materialize.min.css' type='text/css')
+    link(rel='stylesheet' href='/stylesheets/admin.css' type='text/css')
+    link(href='/stylesheets/dataTables.min.css', rel='stylesheet', type='text/css')
+    script(type='text/javascript' src='/javascripts/jquery.min.js')
+    script(type='text/javascript', src='/javascripts/dataTables.min.js')
+    script(type='text/javascript' src='/javascripts/materialize.min.js')
+    script(type='text/javascript', src='/javascripts/tablesAdmin.js')
+
+  body
+    header
+      .navbar-fixed
+        nav
+          .nav-wrapper.black
+            .container
+              a.brand-logo(href='/')
+                img.responsive-img.transparent.circle(src='../images/logo.jpeg', alt='Restaurante',width='64')
+              ul.left.hide-on-large-only
+                li
+                  a.button-collapse.show-on-large(href='#' data-activates='slide-out'): i.material-icons menu
+      ul.side-nav.fixed#slide-out
+        li
+          .user-view
+            .background.materialboxed
+              img(src='/images/'+session.restaurante.imagenPortada)
+            a: img.circle.materialboxed(src='/images/'+session.restaurante.imagenPerfil)
+            h4.white-text #{session.restaurante.nombre}
+            h6.white-text #{session.restaurante.clasificacion}
+            a
+              span.white-text.name
+                i.material-icons.orange-text grade
+                | #{session.restaurante.calificacion}
+        li
+          a(href='/adminRestaurant/profile') Configuración
+            i.material-icons settings
+        li
+          a.red-text(href='/logout') Salir
+            i.material-icons.red-text keyboard_tab
+        li: .divider
+        li
+          ul.collapsible.collapsible-accordion
+            li
+              .collapsible-header
+                i.material-icons view_module
+                | Previsualización de Platillos
+              .collapsible-body
+                ul
+                  li
+                    a.waves-effect(href='/admin/viewSaucer') 
+                      i.material-icons.left visibility 
+                      | Ver
+            li
+              .collapsible-header
+                i.material-icons settings_brightness
+                | Administración de datos
+              .collapsible-body
+                ul
+                  li: a.waves-effect(href='/admin/payments') Historial de Pagos
+                  li: a.waves-effect(href='/admin/saucer-food') Platillos
+                  li: a.waves-effect(href='/admin/phones') Telefonos
+
+
+    main
+      .row
+        .col.s12
+          block content
+
+    footer.page-footer.black
+      .container
+      .footer-copyright
+        .container
+          Copyright &copy 2018 Choseat. Todos los derechos reservados.

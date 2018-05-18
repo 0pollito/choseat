@@ -1,0 +1,74 @@
+doctype html
+html
+  head
+    title Administración Rest
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+    link(rel='stylesheet' href='/stylesheets/icons.css' type='text/css')
+    link(rel='stylesheet' href='/stylesheets/materialize.min.css' type='text/css')
+    link(rel='stylesheet' href='/stylesheets/admin.css' type='text/css')
+    link(href='/stylesheets/dataTables.min.css', rel='stylesheet', type='text/css')
+    script(type='text/javascript' src='/javascripts/jquery.min.js')
+    script(type='text/javascript', src='/javascripts/dataTables.min.js')
+    script(type='text/javascript' src='/javascripts/materialize.min.js')
+    script(type='text/javascript', src='/javascripts/tablesAdmin.js')
+
+  body
+    header
+      .navbar-fixed
+        nav
+          .nav-wrapper.black
+            .container
+              a.brand-logo(href='/admin')
+                img.responsive-img.transparent(src='../images/logo.jpeg', alt='Restaurante',width='64')
+              ul.left.hide-on-large-only
+                li
+                  a.button-collapse.show-on-large(href='#' data-activates='slide-out'): i.material-icons menu
+      ul.side-nav.fixed#slide-out
+        li
+          .user-view
+            .background
+              img(src='/images/process.png')
+            a: img.circle(src='/images/usuario.jpg')
+            a: span.black-text.email #{session.email}
+        li
+          a(href='/admin/count') Configuración
+            i.material-icons settings
+        li
+          a.red-text(href='/logout') Salir
+            i.material-icons keyboard_tab
+        li: .divider
+        li
+          ul.collapsible.collapsible-accordion
+            li
+              .collapsible-header
+                i.material-icons view_module
+                | Administracion de pagos
+              .collapsible-body
+                ul
+                  li: a.waves-effect(href='/admin/clients') Subscriptores de Restaurante
+                  li: a.waves-effect(href='/admin/payments') Pagos
+            li
+              .collapsible-header
+                i.material-icons settings_brightness
+                | Administración de datos
+              .collapsible-body
+                ul
+                  li: a.waves-effect(href='/admin/users/list') Usuarios
+                  li: a.waves-effect(href='/admin/restaurants/list') Restaurantes
+                  li: a.waves-effect(href='/admin/saucerFoods/list') Platillos
+                  li: a.waves-effect(href='/admin/reservations/list') Reservaciones
+                  li: a.waves-effect(href='/admin/phones/list') Agenda de Telefonos
+
+
+    main
+      .row
+        .col.s12
+          block content
+
+    footer.page-footer.black
+      .container
+      .footer-copyright
+        .container
+          Copyright &copy 2018 Nombre del restaurante. Todos los derechos reservados.
