@@ -3,22 +3,60 @@ var router = express.Router();
 var userModel = require('../serv_modules/userModel');
 var restaurantModel = require('../serv_modules/restaurantModel');
 var subscriptorModel = require('../serv_modules/subscriptorModel');
+var saucerFoodModel = require('../serv_modules/saucerFoodModel');
+var fs = require('fs');
+var multer  = require('multer');
+
+//imagenUp server
+var storage = multer.diskStorage({
+  destination: function(req, file, callback){
+      callback(null, "./public/images/platillos/");
+  },
+  filename: function(req, file, callback){
+      callback(null, Date.now() + file.originalname);
+    }
+  });
+var upload = multer({ storage: storage }).single('imagenUp');
+var uploadUpdate = multer({ storage: storage }).single('imagenUpd');
+
+function isNumber(number) {
+  return (/^(\d)+((\.)(\d){1,2})?$/.test(number));
+}
 
 //funcion de logeo para el usuario
 function login(req,res,next){
-  if(req.session.userType == 'Restaurante'){
+  if(req.session.userType === 'Restaurante'){
     next();
-  }else if(req.session.userType == 'Administrador'){
-      res.redirect('/admin');
-  }else if(req.session.userType == 'Cliente'){
-      res.redirect('/');
-  }else
-      res.redirect('/login');
+  }else if(req.session.userType === 'Administrador'){
+    res.redirect('/admin');
+  }else if(req.session.userType === 'Cliente'){
+     res.redirect('/');
+  }else{
+    res.redirect('/login');
+  }
 };
 
 router.get('/',login,function(req,res,next){
   res.redirect('adminRestaurant/profile');
 });
+
+router.get('/saucerFoods',login,function(req,res,next){
+  saucerFoodAll(res,req,{});
+});
+
+function saucerFoodAll(res,req,alert) {
+  var idRestaurante = req.session.restaurante.idRestaurante;
+  saucerFoodModel.getSaucerFoodRest(idRestaurante,function(error,data) {
+    var dataP = [];
+    if (typeof data != 'undefined' && data.length > 0) {
+      dataP = data;
+      res.render('adminRestaurant/saucerFood', {dataP: dataP, alert: alert});
+    }else{
+      res.render('adminRestaurant/saucerFood', {dataP: dataP, alert: {error: 'No existen registros.'}});
+    }
+  });
+}
+
 function profile(req, res, alert) {
   var email = req.session.email;
   //email= 'juanito@gmail.com';
@@ -69,6 +107,22 @@ router.post('/update_subscriptor',login,function(req,res,next){
       profile(req,res,{success: '*Restaurante Actualizado correctamente'});
   });
 });
+
+
+//new_SaucerFood
+
+router.post('/update_saucerFood',login,function(req,res,next){
+  var saucerFoodData =[{nombre: req.body.nameUpdate, apellidos: req.body.apellidosUpdate, domicilio: req.body.domicilioUpdate,telefono: req.body.telUpdate,fecha_nac: req.body.fecha_nacUpdate}, req.session.email];
+  console.log(subcriptorData);
+  subscriptorModel.updateSubscriptor(saucerFoodData,function(error,data){
+    if (error)
+      profile(req,res,{error: 'Ocurrio un error al actualizar el Restaurante'});
+    else
+      profile(req,res,{success: '*Restaurante Actualizado correctamente'});
+  });
+});
+
+
 
 
 

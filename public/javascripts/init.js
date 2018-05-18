@@ -4,7 +4,7 @@
   //Materialize Components
    $('.parallax').parallax();
    $('.carousel').carousel({fullWidth: true,  duration: 10});
-   $('.slider').slider('start');
+   $('.slider').slider();
    $(".button-collapse").sideNav();
    $('#alert').trigger("click");
    $('.tooltipped').tooltip({delay: 50});

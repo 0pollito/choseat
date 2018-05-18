@@ -1,7 +1,38 @@
 doctype html
-html
+htmls
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    block content
+    title
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+    link(href='/stylesheets/icons.css', rel='stylesheet', type='text/css')
+    link(href='/stylesheets/materialize.min.css', rel='stylesheet', type='text/css')
+    link(href='/stylesheets/style.css', rel='stylesheet', type='text/css')
+    script(type='text/javascript', src='/javascripts/jquery.min.js')
+    script(type='text/javascript', src='/javascripts/materialize.min.js')
+    script(type='text/javascript', src='/javascripts/init.js')
+
+  body(background='images/body.png')
+    header
+      .navbar-fixed
+        nav
+          .nav-wrapper.red
+            .container
+              a.brand-logo(href='/'): img.responsive-img.circle(src='images/logo.jpeg', alt='Choseat',width='64')
+              ul.right.hide-on-med-and-down
+                li: a.active(href='/') Inicio
+                li: a(href='/restaurants') Restaurantes
+                li: a(href='/contact') Contacto
+                if session.userType == 'client'
+                  li: a(href='/client/account') #{session.email}
+                  li: a(href='/logoutClient') Salir
+                else
+                  li: a(href='/register') Crear una cuenta
+                  li: a(href='/login') Iniciar Sesión
+    main
+      block content
+
+    footer.page-footer.red
+      .footer-copyright.red
+        .container
+          Copyright &copy 2018 Choseat. Todos los derechos reservados.

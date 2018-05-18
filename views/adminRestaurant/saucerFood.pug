@@ -18,7 +18,6 @@ block content
             thead
               tr
                 th Id Platillo
-                th Restaurante
                 th Nombre
                 th Descripción
                 th Estado
@@ -29,7 +28,6 @@ block content
               each item in dataP
                 tr
                   td= item.idPlatillo
-                  td= item.nombreRest
                   td= item.nombre
                   td= item.descripcion
                   td= item.estado
@@ -44,14 +42,8 @@ block content
               i.material-icons add
               | Agregar Nuevo Platillo
             .collapsible-body
-              form#formInsert.center(method='post', action='/admin/saucerFoods/new_SaucerFood', enctype='multipart/form-data')
+              form#formInsert.center(method='post', action='/adminRestaurant/new_SaucerFood', enctype='multipart/form-data')
                 .row
-                  .input-field.col.s12.m3
-                    select.validate(name='selectRest',required)
-                      option(value='', disabled, selected) Seleccionar
-                      each item in dataR
-                        option(value=item.idRestaurante)= item.nombre
-                    label(for='selectRest',data-error='Seleccione una opción') Restaurante
                   .input-field.col.s12.m3
                     input.validate(name='nombre', type='text', required)
                     label(for='nombre',data-error="Formato no valido") Nombre:
@@ -81,14 +73,14 @@ block content
               i.material-icons delete
               | Eliminar Platillo
             .collapsible-body
-              form#formEliminar.center(method='post',action='/admin/saucerFoods/del_saucerFood')
+              form#formEliminar.center(method='post',action='/adminRestaurant/del_saucerFood')
                 .row
                   .input-field.col.s12.m4.offset-m4
                     select.validate(name='selectDelRest',required)
                       option(value='', disabled, selected) Seleccionar
                       each item in dataP
                         option(value=item.idPlatillo)= item.nombre
-                    label Platillos
+                    label Platillo
                   .col.s12
                     p.center ¿Está seguro que quiere eliminar el Platillo?.
                 button.btn.red(type='submit') Eliminar
@@ -99,19 +91,13 @@ block content
               | Modificar Platillo
             .collapsible-body
               .row
-                form#formModificar.center(method='post',action='/admin/saucerFoods/update_saucerFood', enctype='multipart/form-data')
+                form#formModificar.center(method='post',action='/adminRestaurant/update_saucerFood', enctype='multipart/form-data')
                   .input-field.col.s12.m3
                     select.validate(name='selectPlatillo',required)
                       option(value='', disabled, selected) Seleccionar
                       each item in dataP
                         option(value=item.idPlatillo)= item.nombre
                     label(for='selectPlatillo',data-error='Seleccione una opción') Platillo
-                  .input-field.col.s12.m4
-                    select.validate(name='selectUpdRest',required)
-                      option(value='', disabled, selected) Seleccionar
-                      each item in dataR
-                        option(value=item.idRestaurante)= item.nombre
-                    label(for='selectUpdRest',data-error='Seleccione una opción') Restaurante
                   .input-field.col.s12.m5
                     input.validate(name='nameUpdate', type='text', required)
                     label(for='nameUpdate',data-error="Formato no valido") Nuevo nombre:

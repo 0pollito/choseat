@@ -21,10 +21,35 @@ saucerFoodModel.getSaucerFoods = function(callback){
     });
   }
 }
+saucerFoodModel.getSearch = function(busqueda,callback){
+  if(connection){
+    //console.log('select * from material where nombre like \'%'+busqueda+'%\' ');
+    connection.query('select (p.nombre) as platillo,r.nombre,r.clasificacion,p.imagen,p.precio,p.descripcion from platillo as p inner join restaurante as r on p.idRestaurante=r.idRestaurante where p.descripcion like \'%'+busqueda+'%\' ',function(error,rows){
+      if(error){
+        connection.end();
+        throw error;
+      }else{
+        callback(null,rows);
+      }
+    });
+  }
+}
 
 saucerFoodModel.getSaucerFood = function(idPlatillo,callback){
   if(connection){
     connection.query('select * from platillo where idPlatillo = ? ',[idPlatillo],function(error,rows){
+      if(error){
+        connection.end();
+        throw error;
+      }else{
+        callback(null,rows);
+      }
+    });
+  }
+}
+saucerFoodModel.getSaucerFoodRest = function(idRestaurante,callback){
+  if(connection){
+    connection.query('select * from platillo where idRestaurante = ? ',[idRestaurante],function(error,rows){
       if(error){
         connection.end();
         throw error;

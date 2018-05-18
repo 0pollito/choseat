@@ -1,10 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var userModel = require('../serv_modules/userModel');
+var saucerFoodModel = require('../serv_modules/saucerFoodModel');
+var restaurantModel = require('../serv_modules/restaurantModel');
 
 /* GET home page public. */
 router.get('/', function(req, res, next) {
-  res.render('index');
+  res.render('index',{dataP: []});
 });
 
 router.get('/login', function(req, res, next) {
@@ -22,6 +24,16 @@ router.get('/register', function(req, res, next) {
 router.get('/logout',function(req,res){
   delete req.session.userType;
   res.redirect('/');
+});
+
+router.get('/search',function(req,res){
+  res.redirect('/');
+});
+
+router.post('/search',function(req,res){
+  saucerFoodModel.getSearch(req.body.search,function(error,data) {
+    res.render('index',{dataP: data, message: 'Se encontraron '+data.length+' resultados'});
+  });
 });
 
 //post login :: receive user and password for authenticate

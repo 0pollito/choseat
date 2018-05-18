@@ -1,9 +1,59 @@
 extends layout
 
 block content
-  h1 nombre de la app
-  p Bienvenido a
-  .container#platillosNuevos
+  .slider
+    ul.slides
+      li
+        img(src='images/p1.jpg')
+        .caption.center-align
+          h3 This is our big Tagline!
+          h5.light.grey-text.text-lighten-3 Here's our small slogan.
+      li
+        img(src='images/p2.jpg')
+        .caption.left-align
+          h3 Left Aligned Caption
+          h5.light.grey-text.text-lighten-3 Here's our small slogan.
+      li
+        img(src='images/p3.jpg')
+        .caption.right-align
+          h3 Right Aligned Caption
+          h5.light.grey-text.text-lighten-3 Here's our small slogan.
+      li
+        img(src='images/p4.jpg')
+        .caption.center-align
+          h3 This is our big Tagline!
+          h5.light.grey-text.text-lighten-3 Here's our small slogan.
+
+  .row
+    .search-wrapper
+      form(method='post',action='/search')
+        .input-field.col.s12.m6.offset-m3.white
+          input(name='search',type="search",placeholder='Buscar Platillo o Restaurante', required,autofocus)
+          i.material-icons search
+          if message 
+            p #{message}
+              a.right(href='/search')
+                i.material-icons close
+
+  .row
+    each item in dataP
+      .col.s12.m6.l4
+        .card.medium 
+          .card-image
+            img.materialboxed(src='images/platillos/'+item.imagen,alt='Platillo')
+            a.btn-floating.halfway-fab.waves-effect.waves-light.red.large $ #{item.precio}
+          .card-content
+            span.card-title.activator.grey-text.text-darken-4= item.platillo
+              i.material-icons.right more_vert
+            p= item.nombre
+            p.truncate= item.descripcion
+          .card-reveal
+            span.card-title.grey-text.text-darken-4 Descripción
+              i.material-icons.right close
+            p= item.descripcion
+          .card-action
+            a(href="#") Cotizar este artículo
+
 
 
 
