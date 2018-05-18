@@ -22,6 +22,19 @@ restaurantModel.getRestaurants = function(callback){
   }
 }
 
+restaurantModel.getRestaurantsCat = function(categoria,callback){
+  if(connection){
+    connection.query('select * from restaurante where clasificacion = ? ',[categoria],function(error,rows){
+      if(error){
+        connection.end();
+        throw error;
+      }else{
+        callback(null,rows);
+      }
+    });
+  }
+}
+
 restaurantModel.getRestaurant = function(idRestaurante,callback){
   if(connection){
     connection.query('select * from restaurante where idRestaurante = ? ',[idRestaurante],function(error,rows){

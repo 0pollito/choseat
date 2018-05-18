@@ -28,7 +28,7 @@ block content
     .search-wrapper
       form(method='post',action='/search')
         .input-field.col.s12.m6.offset-m3.white
-          input#searchP(name='search',type="search",placeholder='Busca tu Platillo favorito', required,autofocus)
+          input.black-text(name='search',type="search",placeholder='Buscar Platillo o Restaurante', required,autofocus)
           i.material-icons search
           if message 
             p #{message}

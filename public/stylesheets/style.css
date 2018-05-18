@@ -19,6 +19,8 @@ footer .page-footer{
       padding-left: 300px;
     }
   }*/
+  #searchP::placeholder { color: black;  font-weight: bold; }
+  
 
 
 @media only screen and (max-width : 992px) {

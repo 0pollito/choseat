@@ -21,7 +21,7 @@ htmls
               a.brand-logo(href='/'): img.responsive-img.circle(src='images/logo.jpeg', alt='Choseat',width='64')
               ul.right.hide-on-med-and-down
                 li: a.active(href='/') Inicio
-                li: a(href='/restaurants') Restaurantes
+                li: a.dropdown-button(href='/restaurants', data-activates='dropdown1')   Restaurantes
                 li: a(href='/contact') Contacto
                 if session.userType == 'client'
                   li: a(href='/client/account') #{session.email}
@@ -29,6 +29,15 @@ htmls
                 else
                   li: a(href='/register') Crear una cuenta
                   li: a(href='/login') Iniciar Sesión
+
+              ul#dropdown1.dropdown-content
+                li: a(href='/gour') Gourmet
+                li: a(href='/desp') De especialidad
+                li: a(href='/fam') Familiar
+                li: a(href='/buff') Buffet
+                li: a(href='/comra') De comida rápida
+                li: a(href='comll') De Comida para llevar
+
     main
       block content
 

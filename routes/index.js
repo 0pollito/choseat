@@ -29,6 +29,38 @@ router.get('/logout',function(req,res){
 router.get('/search',function(req,res){
   res.redirect('/');
 });
+router.get('/restaurants',function(req,res){
+  req.body.
+  res.render('restaurants');
+});
+
+function restaurantsCat(res,alert,categoria) {
+  restaurantModel.getRestaurantsCat(categoria,function(error,data) {
+    if (typeof data != 'undefined' && data.length > 0) {
+      res.render('restaurants', {dataR: data, titulo: categoria, alert: alert});
+    }else{
+      res.render('restaurants', {dataR: [], alert: {error: 'no se encontraron coincidencias'}});
+    }
+  });
+}
+router.get('/gour',function(req,res){
+  restaurantsCat(res,{},'Restaurante Gourmet');
+});
+router.get('/desp',function(req,res){
+  restaurantsCat(res,{},'Restaurante de especialidad');
+});
+router.get('/fam',function(req,res){
+  restaurantsCat(res,{},'Restaurante familiar');
+});
+router.get('/buff',function(req,res){
+  restaurantsCat(res,{},'Restaurante buffet');
+});
+router.get('/comra',function(req,res){
+  restaurantsCat(res,{},'Restaurante de comida rápida');
+});
+router.get('/comll',function(req,res){
+  restaurantsCat(res,{},'Comida para llevar');
+});
 
 router.post('/search',function(req,res){
   saucerFoodModel.getSearch(req.body.search,function(error,data) {
