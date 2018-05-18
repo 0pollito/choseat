@@ -1,9 +1,9 @@
 var mysql = require('mysql');
 var connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'adbRest',
-  password: 'Rest.v1',
-  database: 'restaurante',
+  host: 'us-cdbr-iron-east-04.cleardb.net',
+  user: 'b3d4fd7a145baf',
+  password: '973fb205',
+  database: 'heroku_2231ba38cd78c18',
   port: 3306
 });
 
