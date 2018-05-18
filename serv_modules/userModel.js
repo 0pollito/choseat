@@ -1,6 +1,6 @@
 
 var mysql = require('mysql');
-var connection = mysql.createConnection({
+var mysqlPool = mysql.createPool({
   host: 'us-cdbr-iron-east-04.cleardb.net',
   user: 'b3d4fd7a145baf',
   password: '973fb205',
@@ -11,90 +11,102 @@ var connection = mysql.createConnection({
 var userModel = {};
 
 userModel.getUser = function(correo,callback){
-  if(connection){
+  mysqlPool.getConnection(function(err, connection) {
+    if(err) throw err;
     connection.query('select * from usuario where correo = ?',[correo],function(error,rows){
       if(error){
         connection.end();
         throw error;
-      }else{
-        callback(null,rows);
       }
+      connection.release();
+      console.log('conexion cerrada');
+      callback(null,rows);
     });
-
-  }
+  });
 }
 userModel.getUsers = function(callback){
-  if(connection){
+  mysqlPool.getConnection(function(err, connection) {
+    if(err) throw err;
     connection.query('select idUsuario, correo, tipo, activo from usuario',function(error,rows){
       if(error){
         connection.end();
         throw error;
       }else{
+        connection.release();
         callback(null,rows);
       }
     });
-
-  }
+  });
 }
 userModel.getClient = function(correo,callback){
-  if(connection){
+  mysqlPool.getConnection(function(err, connection) {
+    if(err) throw err;
     connection.query('select * from cliente where correo = ?',[correo],function(error,rows){
       if(error){
         connection.end();
         throw error;
       }else{
+        connection.release();
         callback(null,rows);
       }
     });
-  }
+  });
 } 
 
 userModel.getAdmin = function(email,callback){
-  if(connection){
+  mysqlPool.getConnection(function(err, connection) {
+    if(err) throw err;
     connection.query('select * from admin where email = ?',[email],function(error,rows){
       if(error){
         connection.end();
         throw error;
       }else{
+        connection.release();
         callback(null,rows);
       }
     });
-  }
+  });
 }
 userModel.insertUser = function(userData,callback) {
-  if(connection){
+  mysqlPool.getConnection(function(err, connection) {
+    if(err) throw err;
     connection.query('insert into usuario set ?',userData,function(error,result) {
       if (error) {
         connection.end();
         throw error;
       }else {
+        connection.release();
         callback(null,{'rowAffected': result.affectedRows});
       }
     });
-  }
+  });
 }
 userModel.updateUser = function(userData,callback){
-  if(connection){
+  mysqlPool.getConnection(function(err, connection) {
+    if(err) throw err;
     connection.query('update usuario set ? where idUsuario = ?',userData,function(error,rows){
       if(error){
         connection.end();
         throw error;
       }else{
+        connection.release();
         callback(null,rows);
       }
     });
-  }
+  });
 }
 userModel.delUser = function(idUser,callback){
-  if(connection){
+  mysqlPool.getConnection(function(err, connection) {
+    if(err) throw err;
     connection.query('update usuario set activo = 0 where idUsuario = ?',[idUser],function(error,rows){
       if(error){
         connection.end();
         throw error;
       }else{
+        connection.release();
         callback(null,rows);
       }
     });
-  }
+  });
 }
 module.exports = userModel;

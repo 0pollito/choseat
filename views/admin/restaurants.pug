@@ -3,7 +3,7 @@ extends layout
 block content
   h4 Restaurantes
   .row
-    .col.s12.m8
+    .col.s12.m9
       .card-panel
         table#table_cont.responsive-table.striped.centered
           thead
@@ -13,7 +13,6 @@ block content
               th Descripción
               th Dirección
               th Clasificación
-              th Calificación
               th Activo
           tbody
             each item in dataR
@@ -23,9 +22,8 @@ block content
                 td= item.descripcion
                 td= item.direccion
                 td= item.clasificacion
-                td= item.calificacion
                 td= item.activo
-    .col.s12.m4
+    .col.s12.m3
       .row
         if alert.success
           .card-panel.green-text.text-accent-4#alert
@@ -42,7 +40,7 @@ block content
               | Agregar Nuevo Restaurante
             .collapsible-body
               .row
-                .col.s12.m4.offset-m4
+                .col.s12
                   a.btn.green.darken-1(href='/count/new_restaurantCount') Aceptar
 
           li
@@ -51,16 +49,15 @@ block content
               | Eliminar Restaurante
             .collapsible-body
               form#formEliminar.center(method='post',action='/admin/restaurants/del_Restaurant')
-                .row
-                  .input-field.col.s12.m6.offset-m3
-                    select.validate(name='selectDelRest',required)
-                      option(value='', disabled, selected) Seleccionar
-                      each item in dataR
-                        option(value=item.idRestaurante)= item.nombre
-                    label Restaurantes
-                  .col.s12
-                    p ¿Está seguro que quiere eliminar al usuario?.
-                button.btn.red(type='submit') Eliminar
+                .input-field.col.s12
+                  select.validate(name='selectDelRest',required)
+                    option(value='', disabled, selected) Seleccionar
+                    each item in dataR
+                      option(value=item.idRestaurante)= item.nombre
+                  label Restaurantes
+                .col.s12
+                  p ¿Está seguro que quiere eliminar al usuario?.
+              button.btn.red(type='submit') Eliminar
 
           li
             .collapsible-header
@@ -68,13 +65,13 @@ block content
               | Modificar Restaurante
             .collapsible-body
               form#formModificar.center(method='post',action='/admin/restaurants/update_Restaurant')
-                .input-field.col.s12.m5
+                .input-field.col.s12
                   select.validate(name='selectUpdRest',required)
                     option(value='', disabled, selected) Seleccionar
                     each item in dataR
                       option(value=item.idRestaurante)= item.nombre
                   label(for='selectUpdRest',data-error='Seleccione una opción') Restaurante
-                .input-field.col.s12.m7
+                .input-field.col.s12
                   input.validate(name='nameUpdate', type='text', required)
                   label(for='nameUpdate',data-error="Formato no valido") Nuevo nombre:
                 .input-field.col.s12
