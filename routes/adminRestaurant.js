@@ -44,6 +44,10 @@ router.get('/saucerFoods',login,function(req,res,next){
   saucerFoodAll(res,req,{});
 });
 
+router.get('/viewSaucer',login,function(req,res,next){
+  saucerVi(res,req,{});
+});
+
 function saucerFoodAll(res,req,alert) {
   var idRestaurante = req.session.restaurante.idRestaurante;
   saucerFoodModel.getSaucerFoodRest(idRestaurante,function(error,data) {
@@ -53,6 +57,18 @@ function saucerFoodAll(res,req,alert) {
       res.render('adminRestaurant/saucerFood', {dataP: dataP, alert: alert});
     }else{
       res.render('adminRestaurant/saucerFood', {dataP: dataP, alert: {error: 'No existen registros.'}});
+    }
+  });
+}
+function saucerVi(res,req,alert) {
+  var idRestaurante = req.session.restaurante.idRestaurante;
+  saucerFoodModel.getSaucerFoodRest(idRestaurante,function(error,data) {
+    var dataP = [];
+    if (typeof data != 'undefined' && data.length > 0) {
+      dataP = data;
+      res.render('adminRestaurant/saucerview', {dataP: dataP, alert: alert});
+    }else{
+      res.render('adminRestaurant/saucerview', {dataP: dataP, alert: {error: 'No existen registros.'}});
     }
   });
 }
