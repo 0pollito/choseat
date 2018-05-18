@@ -53,6 +53,7 @@ router.post('/new_clientCount',function(req,res,next){
             if (data && data.rowAffected) {
               req.session.user = clientData.nombre+' '+clientData.apellidos;
               req.session.userType = 'Cliente';
+              req.session.email = clientData.user;
               res.redirect('/');
             }else {
               console.log('error al insertar user');

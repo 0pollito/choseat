@@ -100,7 +100,7 @@ router.post('/authenticate', function(req, res, next){
           res.redirect('/');
         }
         if(req.session.userType == 'Restaurante'){
-          res.redirect('/adminRestaurant');
+          res.redirect('/adminRestaurant/profile');
         }
       }else{
         res.render('session/login',{alertToast: '*Email o Contraseña incorrecta'});

@@ -23,7 +23,7 @@ htmls
                 li: a.active(href='/') Inicio
                 li: a.dropdown-button(href='/restaurants', data-activates='dropdown1')   Restaurantes
                 li: a(href='/contact') Contacto
-                if session.userType == 'client'
+                if session.userType == 'Cliente'
                   li: a(href='/client/account') #{session.email}
                   li: a(href='/logoutClient') Salir
                 else

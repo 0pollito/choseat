@@ -73,6 +73,7 @@ function profile(req, res, alert) {
                     'Comida para llevar'];
       restaurantModel.getRestaurant(dataS.idRestaurante,function(error,data){
         if (typeof data != 'undefined' && data.length > 0){
+          console.log(req.session.restaurante);
           req.session.restaurante = data[0];
           res.render('adminRestaurant/profile',{dataR: data[0],dataC: categorias,dataS: dataS, alert: alert});
         }
@@ -121,6 +122,42 @@ router.post('/update_saucerFood',login,function(req,res,next){
       profile(req,res,{success: '*Restaurante Actualizado correctamente'});
   });
 });
+
+router.post('/new_SaucerFood',login,function(req, res, next){
+    upload(req, res, function(err) {//subida de imagen
+    if(err)  return saucerFoodAll(res,req,{error: 'Error al subir la imagen'});
+    
+    var precio = req.body.precio;
+
+    if(!isNumber(precio)){
+      fs.unlinkSync(req.file.path, function (err) {
+        if(err)
+          console.log(err);
+        console.log ( "Archivo eliminado correctamente!");
+        saucerFoodAll(res,req,{error: '*Los datos para el campo precio no son validos'});
+      });
+    }else {
+        var saucerFoodData = {
+          idRestaurante: req.session.restaurante.idRestaurante,
+          nombre: req.body.nombre,
+          descripcion: req.body.descripcion,
+          estado: req.body.selectEstado,
+          precio: req.body.precio,
+          imagen: req.file.filename
+        }
+
+        saucerFoodModel.setSaucerFood(saucerFoodData,function(error,data){
+          if (error) saucerFoodAll(res,{error: 'Ocurrio un problema al insertar el nuevo Platillo'});
+          if (data && data.affectedRows > 0)
+            saucerFoodAll(res,req,{success: '*Platilo agregado  correctamente'});
+          else
+            saucerFoodAll(res,req,{error: '*No se realizó ningun cambio'});
+        });
+      }
+    });
+  });
+
+
 
 
 
