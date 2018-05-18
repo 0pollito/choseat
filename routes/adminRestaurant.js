@@ -48,6 +48,18 @@ router.get('/viewSaucer',login,function(req,res,next){
   saucerVi(res,req,{});
 });
 
+router.get('/payments',login,function(req,res,next){
+  var idSubscriptor = req.session.subscriptor.idDueño;
+  console.log(idSubscriptor);
+  subscriptorModel.getPayments(idSubscriptor,function(error,data){
+    if (typeof data != 'undefined' && data.length > 0){
+      res.render('adminRestaurant/payments',{dataP: data,alert: {}});
+    }else{
+      res.render('adminRestaurant/payments',{dataP: [],alert: {error: 'No existen registros'}});
+    }
+  });
+});
+
 function saucerFoodAll(res,req,alert) {
   var idRestaurante = req.session.restaurante.idRestaurante;
   saucerFoodModel.getSaucerFoodRest(idRestaurante,function(error,data) {
@@ -81,6 +93,7 @@ function profile(req, res, alert) {
   subscriptorModel.getSubscriptor(email,function(error,data) {
     if (typeof data != 'undefined' && data.length > 0){
       dataS = data[0];
+      req.session.subscriptor = dataS;
       var categorias = ['Restaurante Gourmet', 
                     'Restaurante de especialidad',
                     'Restaurante familiar',

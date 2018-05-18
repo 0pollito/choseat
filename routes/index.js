@@ -29,7 +29,10 @@ router.get('/logout',function(req,res){
 router.get('/search',function(req,res){
   res.redirect('/');
 });
-router.get('/restaurantProfile',function(req,res){
+router.get('/contact',function(req,res){
+  res.redirect('/');
+});
+router.get('/restaurantProfile',function(req,res,next){
   saucerFoodAllforRest(res,req,{});
 });
 

@@ -12,21 +12,26 @@ var userModel = {};
 
 userModel.getUser = function(correo,callback){
   mysqlPool.getConnection(function(err, connection) {
-    if(err) throw err;
+    if(err){
+      connection.end();
+      throw err;
+    }
     connection.query('select * from usuario where correo = ?',[correo],function(error,rows){
       if(error){
         connection.end();
         throw error;
       }
       connection.release();
-      console.log('conexion cerrada');
       callback(null,rows);
     });
   });
 }
 userModel.getUsers = function(callback){
   mysqlPool.getConnection(function(err, connection) {
-    if(err) throw err;
+    if(err){
+      connection.end();
+      throw err;
+    }
     connection.query('select idUsuario, correo, tipo, activo from usuario',function(error,rows){
       if(error){
         connection.end();
@@ -40,7 +45,10 @@ userModel.getUsers = function(callback){
 }
 userModel.getClient = function(correo,callback){
   mysqlPool.getConnection(function(err, connection) {
-    if(err) throw err;
+    if(err){
+      connection.end();
+      throw err;
+    }
     connection.query('select * from cliente where correo = ?',[correo],function(error,rows){
       if(error){
         connection.end();
@@ -69,7 +77,10 @@ userModel.getAdmin = function(email,callback){
 }
 userModel.insertUser = function(userData,callback) {
   mysqlPool.getConnection(function(err, connection) {
-    if(err) throw err;
+    if(err){
+      connection.end();
+      throw err;
+    }
     connection.query('insert into usuario set ?',userData,function(error,result) {
       if (error) {
         connection.end();
@@ -83,7 +94,10 @@ userModel.insertUser = function(userData,callback) {
 }
 userModel.updateUser = function(userData,callback){
   mysqlPool.getConnection(function(err, connection) {
-    if(err) throw err;
+    if(err){
+      connection.end();
+      throw err;
+    }
     connection.query('update usuario set ? where idUsuario = ?',userData,function(error,rows){
       if(error){
         connection.end();
@@ -97,7 +111,10 @@ userModel.updateUser = function(userData,callback){
 }
 userModel.delUser = function(idUser,callback){
   mysqlPool.getConnection(function(err, connection) {
-    if(err) throw err;
+    if(err){
+      connection.end();
+      throw err;
+    }
     connection.query('update usuario set activo = 0 where idUsuario = ?',[idUser],function(error,rows){
       if(error){
         connection.end();

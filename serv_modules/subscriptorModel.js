@@ -24,6 +24,21 @@ subscriptorModel.getSubscriptors = function(callback){
   });
 }
 
+subscriptorModel.getPayments = function(idSubscriptor,callback){
+  mysqlPool.getConnection(function(err, connection) {
+    if(err) throw err;
+    connection.query("select idPago, DATE_FORMAT(fecha, '%d/%m/%y') as fecha, cantidad from pagos_subscripcion where idSubscriptor = ?",[idSubscriptor],function(error,rows){
+      if(error){
+        connection.end();
+        throw error;
+      }else{
+         connection.release();
+        callback(null,rows);
+      }
+    });
+  });
+}
+
 subscriptorModel.getSubscriptor = function(email,callback){
   mysqlPool.getConnection(function(err, connection) {
     if(err) throw err;

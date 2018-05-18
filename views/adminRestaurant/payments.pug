@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  h4 Pagos Realizados
+    if alert.success
+      .card-panel.green-text.text-accent-4#alert
+        h5 #{alert.success}
+          i.close.right.material-icons close
+    if alert.error
+      .card-panel.red-text.text-accent-4#alert
+        h5 #{alert.error}
+          i.close.material-icons close
+  .row
+    .col.s12.m8.offset-m2
+      .card-panel
+        .row
+          table#table_cont.responsive-table.display.centered
+            thead
+              tr
+                th Id Pago
+                th Fecha
+                th Cantidad
+            tbody
+              each item in dataP
+                tr
+                  td= item.idPago
+                  td= item.fecha
+                  td= item.cantidad
+
+  
