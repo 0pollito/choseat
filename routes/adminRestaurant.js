@@ -148,14 +148,32 @@ router.post('/update_subscriptor',login,function(req,res,next){
 
 
 //new_SaucerFood----------------falta
-
+ 
 router.post('/update_saucerFood',login,function(req,res,next){
-  var saucerFoodData =[{nombre: req.body.nameUpdate, apellidos: req.body.apellidosUpdate, domicilio: req.body.domicilioUpdate,telefono: req.body.telUpdate,fecha_nac: req.body.fecha_nacUpdate}, req.session.email];
-  subscriptorModel.updateSubscriptor(saucerFoodData,function(error,data){
-    if (error)
-      profile(req,res,{error: 'Ocurrio un error al actualizar el Restaurante'});
-    else
-      profile(req,res,{success: '*Restaurante Actualizado correctamente'});
+  uploadP(req, res, function(err) {//subida de imagen
+    if(err)  return saucerFoodAll(res,req,{error: 'Error al subir la imagen'});
+    var precio = req.body.precioUpdate;
+
+      if(!isNumber(precio)){
+        fs.unlinkSync(req.file.path, function (err) {
+          if(err)
+            console.log(err);
+          console.log ( "Archivo eliminado correctamente!");
+          saucerFoodAll(res,req,{error: '*Los datos para el campo precio no son validos'});
+        });
+      }else{
+        var saucerFoodData =[{nombre: req.body.nameUpdate, 
+          descripcion: req.body.descriptionUpdate, 
+          estado: req.body.selectEstadoUpd,
+          precio: req.body.precio,
+          imagen: req.file.filename}, req.body.selectPlatillo];
+        saucerFoodModel.updateSaucerFood(saucerFoodData,function(error,data){
+          if (error)
+            saucerFoodAll(res,req,{error: 'Ocurrio un error al actualizar el Platillo'});
+          else
+            saucerFoodAll(res,req,{success: '*Platillo Actualizado correctamente'});
+        });
+      }
   });
 });
 
