@@ -16,7 +16,17 @@ var storage = multer.diskStorage({
       callback(null, Date.now() + file.originalname);
     }
   });
+//imagenUp server
+var platillos = multer.diskStorage({
+  destination: function(req, file, callback){
+      callback(null, "./public/images/platillos/");
+  },
+  filename: function(req, file, callback){
+      callback(null, Date.now() + file.originalname);
+    }
+  });
 var upload = multer({ storage: storage }).single('imagenUp');
+var uploadP = multer({ storage: platillos }).single('imagenUp');
 var uploadUpdate = multer({ storage: storage }).single('imagenUpd');
 
 function isNumber(number) {
@@ -153,36 +163,36 @@ router.post('/update_saucerFood',login,function(req,res,next){
 });
 
 router.post('/new_SaucerFood',login,function(req, res, next){
-    upload(req, res, function(err) {//subida de imagen
-    if(err)  return saucerFoodAll(res,req,{error: 'Error al subir la imagen'});
-    
-    var precio = req.body.precio;
+    uploadP(req, res, function(err) {//subida de imagen
+      if(err)  return saucerFoodAll(res,req,{error: 'Error al subir la imagen'});
+      
+      var precio = req.body.precio;
 
-    if(!isNumber(precio)){
-      fs.unlinkSync(req.file.path, function (err) {
-        if(err)
-          console.log(err);
-        console.log ( "Archivo eliminado correctamente!");
-        saucerFoodAll(res,req,{error: '*Los datos para el campo precio no son validos'});
-      });
-    }else {
-        var saucerFoodData = {
-          idRestaurante: req.session.restaurante.idRestaurante,
-          nombre: req.body.nombre,
-          descripcion: req.body.descripcion,
-          estado: req.body.selectEstado,
-          precio: req.body.precio,
-          imagen: req.file.filename
-        }
-
-        saucerFoodModel.setSaucerFood(saucerFoodData,function(error,data){
-          if (error) saucerFoodAll(res,{error: 'Ocurrio un problema al insertar el nuevo Platillo'});
-          if (data && data.affectedRows > 0)
-            saucerFoodAll(res,req,{success: '*Platilo agregado  correctamente'});
-          else
-            saucerFoodAll(res,req,{error: '*No se realizó ningun cambio'});
+      if(!isNumber(precio)){
+        fs.unlinkSync(req.file.path, function (err) {
+          if(err)
+            console.log(err);
+          console.log ( "Archivo eliminado correctamente!");
+          saucerFoodAll(res,req,{error: '*Los datos para el campo precio no son validos'});
         });
-      }
+      }else {
+          var saucerFoodData = {
+            idRestaurante: req.session.restaurante.idRestaurante,
+            nombre: req.body.nombre,
+            descripcion: req.body.descripcion,
+            estado: req.body.selectEstado,
+            precio: req.body.precio,
+            imagen: req.file.filename
+          };
+
+          saucerFoodModel.setSaucerFood(saucerFoodData,function(error,data){
+            if (error) saucerFoodAll(res,{error: 'Ocurrio un problema al insertar el nuevo Platillo'});
+            if (data && data.affectedRows > 0)
+              saucerFoodAll(res,req,{success: '*Platilo agregado  correctamente'});
+            else
+              saucerFoodAll(res,req,{error: '*No se realizó ningun cambio'});
+          });
+        }
     });
   });
 
