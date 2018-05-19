@@ -66,23 +66,17 @@ function restaurantsCat(res,alert,categoria) {
     }
   });
 }
-router.get('/gour',function(req,res){
-  restaurantsCat(res,{},'Restaurante Gourmet');
+router.get('/comida_tradicional',function(req,res){
+  restaurantsCat(res,{},'Comida Tradicional');
 });
-router.get('/desp',function(req,res){
-  restaurantsCat(res,{},'Restaurante de especialidad');
+router.get('/comida_rapida',function(req,res){
+  restaurantsCat(res,{},'Comida rápida');
 });
-router.get('/fam',function(req,res){
-  restaurantsCat(res,{},'Restaurante familiar');
+router.get('/marisqueria',function(req,res){
+  restaurantsCat(res,{},'Marisqueria');
 });
-router.get('/buff',function(req,res){
-  restaurantsCat(res,{},'Restaurante buffet');
-});
-router.get('/comra',function(req,res){
-  restaurantsCat(res,{},'Restaurante de comida rápida');
-});
-router.get('/comll',function(req,res){
-  restaurantsCat(res,{},'Comida para llevar');
+router.get('/comida_extranjera',function(req,res){
+  restaurantsCat(res,{},'Comida Extranjera');
 });
 
 router.post('/search',function(req,res){

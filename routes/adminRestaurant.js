@@ -104,12 +104,10 @@ function profile(req, res, alert) {
     if (typeof data != 'undefined' && data.length > 0){
       dataS = data[0];
       req.session.subscriptor = dataS;
-      var categorias = ['Restaurante Gourmet', 
-                    'Restaurante de especialidad',
-                    'Restaurante familiar',
-                    'Restaurante buffet',
-                    'Restaurante de comida rápida',
-                    'Comida para llevar'];
+      var categorias = ['Marisqueria', 
+                    'Comida Tradicional',
+                    'Comida Extranjera',
+                    'Comida rápida'];
       restaurantModel.getRestaurant(dataS.idRestaurante,function(error,data){
         if (typeof data != 'undefined' && data.length > 0){
           console.log(req.session.restaurante);
@@ -149,11 +147,10 @@ router.post('/update_subscriptor',login,function(req,res,next){
 });
 
 
-//new_SaucerFood
+//new_SaucerFood----------------falta
 
 router.post('/update_saucerFood',login,function(req,res,next){
   var saucerFoodData =[{nombre: req.body.nameUpdate, apellidos: req.body.apellidosUpdate, domicilio: req.body.domicilioUpdate,telefono: req.body.telUpdate,fecha_nac: req.body.fecha_nacUpdate}, req.session.email];
-  console.log(subcriptorData);
   subscriptorModel.updateSubscriptor(saucerFoodData,function(error,data){
     if (error)
       profile(req,res,{error: 'Ocurrio un error al actualizar el Restaurante'});
