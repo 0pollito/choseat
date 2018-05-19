@@ -33,19 +33,26 @@ router.get('/contact',function(req,res){
   res.redirect('/');
 });
 router.get('/restaurantProfile',function(req,res,next){
-  saucerFoodAllforRest(res,req,{});
+  var idRestaurante = req.query.rest || '';
+  if(idRestaurante != '')
+    saucerFoodAllforRest(res,idRestaurante,{});
+  else
+    res.redirect('/');
 });
 
-function saucerFoodAllforRest(res,req,alert) {
-  var idRestaurante = req.body.rest;
-  console.log(idRestaurante);
+function saucerFoodAllforRest(res,idRestaurante,alert) {
   saucerFoodModel.getSaucerFoodRest(idRestaurante,function(error,data) {
     var dataP = [];
     if (typeof data != 'undefined' && data.length > 0) {
       dataP = data;
-      res.render('restaurantview', {dataP: dataP, alert: alert});
+      restaurantModel.getRestaurant(idRestaurante,function(error,data) {
+        if (typeof data != 'undefined' && data.length > 0) 
+          res.render('restaurantview', {dataP: dataP, dataR: data[0], alert: alert});
+        else
+          res.render('restaurantview', {dataP: dataP,dataR: {}, alert: alert});
+      });
     }else{
-      res.render('restaurantview', {dataP: dataP, alert: {error: 'No existen registros.'}});
+      res.render('restaurantview', {dataP: [],dataR: {}, alert: {error: 'No existen registros.'}});
     }
   });
 }
@@ -60,7 +67,6 @@ function restaurantsCat(res,alert,categoria) {
   });
 }
 router.get('/gour',function(req,res){
-
   restaurantsCat(res,{},'Restaurante Gourmet');
 });
 router.get('/desp',function(req,res){

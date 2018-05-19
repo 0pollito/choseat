@@ -1,57 +1,56 @@
 extends layout
 
 block content
-  .row
-    .col.s12.m3
-      .container
-        .user-view
-          h4.white-text Nombre
-          h6.white-text clasificacion
-          a
-            span.white-text.name
-              i.material-icons.orange-text grade
-              | Calificacion
-          h6.white-text Horarios
-
-    .col.s12.m9
-      .row
-        .col.s12
-          .card.medium
-            .card-image.waves-effect.waves-block.waves-light
-              img.activator(src='images/portada.jpg')
-              span.card-title 
-              a.btn-floating.halfway-fab.waves-effect.waves-light.red.large
-                i.material-icons add
-            .card-content
+  .container
+    .parallax-container
+      .parallax
+        img(src='images/'+dataR.imagenPortada)
+      .col.s12.m4
+        .row
+          .col.s12.m4
+            .container
+              img.circle.responsive-img(src='images/'+dataR.imagenPerfil)
+              h4.header #{dataR.nombre}
+              span.white-text.name
+                if dataR.calificacion == 0
+                  i.material-icons grade
+                else
+                  - for (var x = 0; x < dataR.calificacion; x++)
+                    i.material-icons.orange-text grade
               
-            .card-tabs
-              ul.tabs.tabs-fixed-width
-                li.tab
-                  a(href='#test4') Platillos
-                li.tab
-                  a.active(href='#test5') Ubicación
-                li.tab
-                  a(href='#test6') Cupones y promociones
-            .card-content.grey.lighten-4
-              #test4 
-                .row
-                  each item in dataP
-                    .col.s12.m6.l4
-                      .card.small 
-                        .card-image
-                          img.materialboxed(src='images/platillos/'+item.imagen,alt='Platillo')
-                        .card-content
-                          span.card-title.activator.grey-text.text-darken-4= item.nombre
-                            i.material-icons.right more_vert
-                          p= item.nombre
-                          p.truncate= item.descripcion
-                        .card-reveal
-                          span.card-title.grey-text.text-darken-4 Descripción
-                            i.material-icons.right close
-                          p= item.descripcion
 
-              #test5 
-              #test6 
+  .container
+    .row
+      .col.s12
+        .card
+          .card-tabs
+            ul.tabs.tabs-fixed-width
+              li.tab
+                a(href='#test4') Platillos
+              li.tab
+                a.active(href='#test5') Ubicación
+              li.tab
+                a(href='#test6') Cupones y promociones
+          .card-content.grey.lighten-4
+            #test4 
+              .row
+                each item in dataP
+                  .col.s12.m6.l4
+                    .card.small 
+                      .card-image
+                        img.materialboxed(src='images/platillos/'+item.imagen,alt='Platillo')
+                      .card-content
+                        span.card-title.activator.grey-text.text-darken-4= item.nombre
+                          i.material-icons.right more_vert
+                        p= item.nombre
+                        p.truncate= item.descripcion
+                      .card-reveal
+                        span.card-title.grey-text.text-darken-4 Descripción
+                          i.material-icons.right close
+                        p= item.descripcion
+
+            #test5 
+            #test6 
 
 
 

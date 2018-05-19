@@ -5,7 +5,7 @@
    $('.parallax').parallax();
    $('.carousel').carousel({fullWidth: true,  duration: 10});
    $('.slider').slider();
-   $(".button-collapse").sideNav();
+    $(".button-collapse").sideNav();
    $('#alert').trigger("click");
    $('.tooltipped').tooltip({delay: 50});
    $('.modal').modal();

@@ -12,20 +12,32 @@ htmls
     script(type='text/javascript', src='/javascripts/materialize.min.js')
     script(type='text/javascript', src='/javascripts/init.js')
 
-  body(background='images/body.png')
+  body(style="background: url(images/body.png); background-repeat: no-repeat;")
     header
       .navbar-fixed
         nav
           .nav-wrapper.red
             .container
               a.brand-logo(href='/'): img.responsive-img.circle(src='images/logo.jpeg', alt='Choseat',width='64')
+              a.button-collapse(href='#', data-activates='mobile-demo') 
+                i.material-icons menu
+              ul#mobile-demo.side-nav
+                li: a.active(href='/') Inicio
+                li: a.dropdown-button(href='/restaurants', data-activates='dropdown1')   Restaurantes
+                li: a(href='/contact') Contacto
+                if session.userType == 'Cliente'
+                  li: a(href='/client/account') #{session.email}
+                  li: a(href='/logout') Salir
+                else
+                  li: a(href='/register') Crear una cuenta
+                  li: a(href='/login') Iniciar Sesión
               ul.right.hide-on-med-and-down
                 li: a.active(href='/') Inicio
                 li: a.dropdown-button(href='/restaurants', data-activates='dropdown1')   Restaurantes
                 li: a(href='/contact') Contacto
                 if session.userType == 'Cliente'
                   li: a(href='/client/account') #{session.email}
-                  li: a(href='/logoutClient') Salir
+                  li: a(href='/logout') Salir
                 else
                   li: a(href='/register') Crear una cuenta
                   li: a(href='/login') Iniciar Sesión

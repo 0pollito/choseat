@@ -11,17 +11,18 @@ block content
           .card.small 
             .card-image
               img.materialboxed(src='images/platillos/'+item.imagenPortada,alt='Restaurante')
+              span.card-title #{item.nombre}
             .card-content
-              span.card-title.activator.grey-text.text-darken-4= item.nombre
+              span.card-title.activator Descripción
                 i.material-icons.right more_vert
-              p= item.nombre
-              p.truncate= item.descripcion
             .card-reveal
               span.card-title.grey-text.text-darken-4 Descripción
                 i.material-icons.right close
               p= item.descripcion
             .card-action
-              a.btn(name='rest',value=item.idRestaurante,href='/restaurantProfile') Ver perfil
+              form(method='get',action='/restaurantProfile')
+                input.hide(type='text',name='rest',value=item.idRestaurante)
+                button.btn(type='submit') Ver perfil
 
 
 
