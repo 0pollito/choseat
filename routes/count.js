@@ -73,7 +73,7 @@ router.post('/newRestaurant',function(req,res,next){
   var user = req.body.inputEmail;
   userModel.getUser(user,function(eror,data){
     if (typeof data != 'undefined' && data.length > 0) {
-      res.render('count/newClient',{alert: "p class=text-danger",text: '* Ya existe un usuario para esa cuenta. :/'});
+      res.render('count/newRestaurant',{alert: "p class=text-danger",text: '* Ya existe un usuario para esa cuenta. :/'});
     }else {
       var restaurantData = {
         nombre: req.body.nombreRestaurant,
@@ -107,17 +107,17 @@ router.post('/newRestaurant',function(req,res,next){
                   res.redirect('/restaurantAdmin/home');
                 }else {
                   console.log('error al insertar user');
-                  res.redirect('/register');
+                  res.redirect('/new_restaurantCount');
                 }
               });
             }else{
-              console.log('error al insertar cliente');
-              res.redirect('/register');
+              console.log('error al insertar Restaurante');
+              res.redirect('/new_restaurantCount');
             }
           });
         }else{
         console.log('error al insertar resturante');
-        res.redirect('/register');
+        res.redirect('/new_restaurantCount');
         }
       });
     }
