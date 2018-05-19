@@ -98,7 +98,7 @@ restaurantModel.updateRestaurant = function(restaurantData,callback){
 restaurantModel.updatePhotos = function(photosData,callback){
   mysqlPool.getConnection(function(err, connection) {
     if(err) throw err;
-    connection.query('update restaurante set ? where idRestaurante = ?',restaurantData,function(error,rows){
+    connection.query('update restaurante set ? where idRestaurante = ?',photosData,function(error,rows){
       if(error){
         connection.end();
         throw error;

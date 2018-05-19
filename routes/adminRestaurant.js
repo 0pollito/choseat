@@ -10,7 +10,7 @@ var multer  = require('multer');
 //imagenUp server
 var storage = multer.diskStorage({
   destination: function(req, file, callback){
-      callback(null, "./public/images/platillos/");
+      callback(null, "./public/images/users/");
   },
   filename: function(req, file, callback){
       callback(null, Date.now() + file.originalname);
@@ -185,6 +185,33 @@ router.post('/new_SaucerFood',login,function(req, res, next){
       }
     });
   });
+
+router.post('/update_Perfil',login,function(req, res, next){
+    uploadUpdate(req, res, function(err) {//subida de imagen
+      if(err)  return saucerFoodAll(res,req,{error: 'Error al subir la imagen'});
+      var profileData = [{imagenPerfil: req.file.filename},req.session.restaurante.idRestaurante];
+      restaurantModel.updatePhotos(profileData,function(error,data){
+        if (error) profile(req,res,{error: 'Ocurrio un problema al insertar el nuevo Platillo'});
+        if (data && data.affectedRows > 0)
+          profile(req,res,{success: '*Imagen de Perfil actualizada  correctamente'});
+        else
+          profile(req,res,{error: '*No se realizó ningun cambio'});
+      });
+  });
+});
+router.post('/update_Portada',login,function(req, res, next){
+    upload(req, res, function(err) {//subida de imagen
+      if(err)  return saucerFoodAll(res,req,{error: 'Error al subir la imagen'});
+      var profileData = [{imagenPortada: req.file.filename},req.session.restaurante.idRestaurante];
+      restaurantModel.updatePhotos(profileData,function(error,data){
+        if (error) profile(req,res,{error: 'Ocurrio un problema al insertar el nuevo Platillo'});
+        if (data && data.affectedRows > 0)
+          profile(req,res,{success: '*Imagen de Perfil actualizada  correctamente'});
+        else
+          profile(req,res,{error: '*No se realizó ningun cambio'});
+      });
+  });
+});
 
 
 

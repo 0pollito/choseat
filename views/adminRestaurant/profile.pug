@@ -48,17 +48,19 @@ block content
             button.btn.green.darken-1(type='submit') Actualizar
     #photosData.col.s12
       .row
-        .col.s12
-        .col.s12
-          form#formModificar.center(method='post',action='/adminRestaurant/update_photos', enctype='multipart/form-data')
-            .input-field.col.s12.m5.offset-m1
+        .col.s12.m6
+          form#formModificar.center(method='post',action='/adminRestaurant/update_Perfil', enctype='multipart/form-data')
+            .input-field.col.s12
               .file-field.input-field
                 .btn.blue
                   input(type='file',name='imagenUpd')
                   | Imagen Perfil
                 .file-path-wrapper
                   input.file-path.validate(type='text',required)
-            .input-field.col.s12.m5.offset-m1
+            button.btn.green.darken-1(type='submit') Actualizar
+        .col.s12.m6
+          form#formModificar.center(method='post',action='/adminRestaurant/update_Portada', enctype='multipart/form-data')
+            .input-field.col.s12
               .file-field.input-field
                 .btn.blue
                   input(type='file',name='imagenUp')
