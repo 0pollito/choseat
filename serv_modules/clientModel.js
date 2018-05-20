@@ -24,6 +24,53 @@ clientModel.getClient = function(idCliente,callback){
     });
   });
 }
+
+clientModel.getClientData = function(email,callback){
+  mysqlPool.getConnection(function(err, connection) {
+    if(err) throw err;
+    connection.query('select * from cliente where correo = ?',[email],function(error,rows){
+      if(error){
+        connection.end();
+        throw error;
+      }else{
+        connection.release();
+        callback(null,rows);
+      }
+    });
+  });
+}
+
+
+clientModel.getComments = function(callback){
+  mysqlPool.getConnection(function(err, connection) {
+    if(err) throw err;
+    connection.query("select c.nombre,co.texto,DATE_FORMAT(co.fecha, '%d/%m/%y') as fecha, DATE_FORMAT(co.fecha, '%h:%i') as hora from cliente c inner join comentario co on c.idCliente=co.idCliente",function(error,rows){
+      if(error){
+        connection.end();
+        throw error;
+      }else{
+        connection.release();
+        callback(null,rows);
+      }
+    });
+  });
+}
+
+clientModel.addComment = function(commentData,callback) {
+  mysqlPool.getConnection(function(err, connection) {
+    if(err) throw err;
+    connection.query('insert into comentario set ?',commentData,function(error,result) {
+      if (error) {
+        connection.release();
+        throw error;
+      }else {
+        connection.release();
+        callback(null,{'insertId': result.insertId});
+      }
+    });
+  });
+}
+
 clientModel.getClients = function(callback){
   mysqlPool.getConnection(function(err, connection) {
     if(err) throw err;

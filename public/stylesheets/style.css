@@ -6,6 +6,10 @@ li:hover{
   --background: red;
 }
 
+ul{
+   outline:none;
+}
+
 footer .page-footer{
   top: 0;
   margin: 0;

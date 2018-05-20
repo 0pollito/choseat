@@ -19,7 +19,7 @@ block content
                   input(type='text',name='nombreRestaurant',required,autofocus)
                   label Nombre:
                 .input-field.col.s12.m7
-                  input(type='text',name='descripcion',required,autofocus)
+                  input(type='text',name='descripcion',required,pattern='[A-Za-z]+',autofocus)
                   label Descripción:
                 .input-field.col.s12.m7
                   input(type='text',name='direccion',required,autofocus)
@@ -36,16 +36,16 @@ block content
                   .card-content
                     .card-title Datos de Subscriptor
                     .input-field.col.s12.m5
-                      input(type='text',name='nombre',required,autofocus)
+                      input(type='text',name='nombre',required,pattern='[A-Za-z]+',autofocus)
                       label Nombre:
                     .input-field.col.s12.m7
-                      input(type='text',name='apellidos',required,autofocus)
+                      input(type='text',name='apellidos',required,pattern='[A-Za-z]+',autofocus)
                       label Apellidos:
                     .input-field.col.s12
                       input(type='text',name='domicilio',required,autofocus)
                       label Domicilio:
                     .input-field.col.s12.m5
-                      input(type='text',name='tel',required,autofocus)
+                      input(type='text',name='tel',required,pattern='[0-9]+',maxlength='10',autofocus)
                       label Teléfono:
                     .input-field.col.s12.m4
                       input.datepicker(type='text',name='fecha_nac',required,autofocus)
@@ -63,16 +63,16 @@ block content
               .card-content
                 .card-title Datos de pago de subscripción
                 .input-field.col.s12.m5
-                  input(type='text',name='tarjeta',required,autofocus)
-                  label Teléfono:
+                  input(type='text',name='tarjeta',required,pattern='[0-9]+',maxlength='16',autofocus)
+                  label Num. Tarjeta:
                 .input-field.col.s12.m7
-                  input(type='text',name='titular',required,autofocus)
+                  input(type='text',name='titular',required,pattern='[A-Za-z]+',autofocus)
                   label Nombre de Titular:
                 .input-field.col.s12.m6
                   input.datepicker(type='text',name='fecha_cad',required,autofocus)
                   label Fecha de Vencimiento:
                 .input-field.col.s12.m6
-                  input(type='text',name='cvc',required,autofocus)
+                  input(type='text',name='cvc',required,pattern='[0-9]+',maxlength='3',autofocus)
                   label CVC:
           .row
             .col.s12

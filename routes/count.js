@@ -32,7 +32,7 @@ router.post('/new_clientCount',function(req,res,next){
   var user = req.body.inputEmail;
   userModel.getUser(user,function(eror,data){
     if (typeof data != 'undefined' && data.length > 0) {
-      res.render('count/newClient',{alert: "p class=text-danger",text: '* Ya existe un usuario para esa cuenta. :/'});
+      res.render('count/newClient',{alert: "p.red-text",text: '* Ya existe un usuario para esa cuenta. :/'});
     }else {
       var clientData = {
         nombre: req.body.nombre,
@@ -49,20 +49,22 @@ router.post('/new_clientCount',function(req,res,next){
       };
       clientModel.insertClient(clientData,function(error,data) {
         if (data && data.insertId) {
+          var insertId = data.insertId;
           userModel.insertUser(userData,function(error,data) {
             if (data && data.rowAffected) {
               req.session.user = clientData.nombre+' '+clientData.apellidos;
               req.session.userType = 'Cliente';
               req.session.email = clientData.user;
+              req.session.idClient = insertId;
               res.redirect('/');
             }else {
               console.log('error al insertar user');
-              res.redirect('/register');
+              res.redirect('/new_clientCount');
             }
           });
       }else{
         console.log('error al insertar cliente');
-        res.redirect('/register');
+        res.redirect('/new_clientCount');
       }
       });
     }

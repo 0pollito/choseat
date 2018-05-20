@@ -11,8 +11,16 @@ htmls
     script(type='text/javascript', src='/javascripts/jquery.min.js')
     script(type='text/javascript', src='/javascripts/materialize.min.js')
     script(type='text/javascript', src='/javascripts/init.js')
+    script.
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  body(style="background: url(images/body.png); background-repeat: no-repeat;")
+      ga('create', 'UA-119584536-1', 'choseat.herokuapp.com');
+      ga('send', 'pageview');
+
+  body(style="background: url(images/fondo.jpg); background-repeat: repeat;")
     header
       .navbar-fixed
         nav
@@ -34,9 +42,12 @@ htmls
               ul.right.hide-on-med-and-down
                 li: a.active(href='/') Inicio
                 li: a.dropdown-button(href='/restaurants', data-activates='dropdown1')   Restaurantes
-                li: a(href='/contact') Contacto
+                li: a(href='/about') ¿Quienes somos?
+                li: a(href='/plans') Planes
                 if session.userType == 'Cliente'
-                  li: a(href='/client/account') #{session.email}
+                  li
+                    a.button-collapse(href='#',data-activates='slide-out')
+                      i.material-icons menu
                   li: a(href='/logout') Salir
                 else
                   li: a(href='/register') Crear una cuenta
@@ -50,6 +61,23 @@ htmls
 
     main
       block content
+    a.button-collapse(href='#', data-activates='slide-out') hola #{session.clientData.correo}
+    ul#slide-out.side-nav
+      li
+        .user-view
+          .background: img(src='images/portada_cliente.jpg')
+          a: img.circle(src='images/cliente.jpg')
+          a: span.amber-text.darken-4-text.name: h4 #{session.clientData.nombre}
+          a: span.amber-text.darken-4-text.email: h6 #{session.clientData.correo}
+      li: .divider
+      li
+        a(href='#!')
+          i.material-icons cloud
+          | Reservaciones
+      li
+        a(href='#!')
+          i.material-icons cloud
+          | Cupones
 
     footer.page-footer.red
       .container.center
@@ -60,5 +88,5 @@ htmls
         a.btn-floating.circle.white(href='https://www.instagram.com/choseat.web')
           img.responsive-img(src='https://cdn.icon-icons.com/icons2/1211/PNG/512/1491580658-yumminkysocialmedia06_83104.png')
       .footer-copyright.red
-        .container
+        .container.center
           Copyright &copy 2018 Choseat. Todos los derechos reservados.

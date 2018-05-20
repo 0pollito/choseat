@@ -53,6 +53,38 @@ block content
             p= item.descripcion
           .card-action
             a(href="#") Ver platillo
+  .row
+    .container
+      ul.collection.with-header
+        if !session.idClient
+          li.collection-header.orange.accent-1
+            .row
+              form(method='post',action='/comment')
+                .input-field.col.s10
+                  i.material-icons.prefix mode_edit
+                  textarea.materialize-textarea(name='comentario',disabled)
+                  label(for='comentario') Agregar un comentario
+                button.btn.disabled Comentar
+                h5: a.right(href='/login') Iniciar sesión
+        else
+          li.collection-header.orange.accent-1
+            .row
+              form(method='post',action='/comment')
+                .input-field.col.s10
+                  i.material-icons.prefix mode_edit
+                  textarea.materialize-textarea(name='comentario')
+                  label(for='comentario') Agregar un comentario
+                button.btn Comentar
+          .divider
+        each item in comments
+          li.collection-item.avatar.orange.accent-1
+            img.circle(src='images/p1.jpg')
+            span.indigo-text.text-darken-4title #{item.nombre} 
+              label  :: #{item.fecha} ::
+              label  #{item.hora}
+            p #{item.texto}
+            a.secondary-content
+              i.material-icons grade
 
 
 

@@ -13,10 +13,10 @@ block content
               h4.header #{dataR.nombre}
               span.white-text.name
                 if dataR.calificacion == 0
-                  i.material-icons grade
+                  i.material-icons star_border
                 else
                   - for (var x = 0; x < dataR.calificacion; x++)
-                    i.material-icons.orange-text grade
+                    i.material-icons.orange-text star_border
   .container
     .row
       .col.s12
