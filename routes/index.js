@@ -111,7 +111,7 @@ router.post('/comment',function(req,res){
 router.post('/authenticate', function(req, res, next){
   var email = req.body.inputEmail;
   var password = req.body.inputPassword;
-
+   
   userModel.getUser(email,function(eror,data){
     if (typeof data != 'undefined' && data.length > 0) {
       if (password == data[0].contrasenia){

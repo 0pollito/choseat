@@ -8,7 +8,7 @@ function login(req,res,next){
   if(req.session.userType == 'Administrador'){
     next();
   }else if(req.session.userType == 'Restaurante'){
-      res.redirect('/adminRestaurant');
+      res.redirect('/adminRestaurant/profile');
   }else if(req.session.userType == 'Cliente'){
       res.redirect('/');
   }else

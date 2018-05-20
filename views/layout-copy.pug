@@ -22,72 +22,66 @@ htmls
 
   body(style="background: url(images/fondo.jpg); background-repeat: repeat;")
     header
-      .navbar-fixed
-        nav.red
-          .nav-wrapper
+      .navbar-fixed.nav-extended
+        nav
+          .nav-wrapper.red
             .container
               a.brand-logo(href='/'): img.responsive-img.circle(src='images/logo.jpeg', alt='Choseat',width='64')
-              a.button-collapse(href='#', data-activates='mobile-demo')
+              a.button-collapse(href='#', data-activates='mobile-demo') 
                 i.material-icons menu
-              ul#hideUl.right.hide-on-med-and-down
+              ul#mobile-demo.side-nav
                 li: a.active(href='/') Inicio
-                li: a.dropdown-button(href='#', data-activates='dropdown2')   Restaurantes
+                li: a.dropdown-button(href='/restaurants', data-activates='dropdown1')   Restaurantes
+                li: a(href='/contact') Contacto
+                if session.userType == 'Cliente'
+                  li
+                    a.button-collapse(href='#',data-activates='slide-out')
+                      i.material-icons add
+                  li: a(href='/logout') Salir
+                else
+                  li: a(href='/register') Crear una cuenta
+                  li: a(href='/login') Iniciar Sesión
+              ul.right.hide-on-med-and-down
+                li: a.active(href='/') Inicio
+                li: a.dropdown-button(href='/restaurants', data-activates='dropdown1')   Restaurantes
                 li: a(href='/about') ¿Quienes somos?
                 li: a(href='/plans') Planes
                 if session.userType == 'Cliente'
+                  li
+                    a.dropdown-button(data-activates='dropdown2') Perfil
                   li: a(href='/logout') Salir
                 else
                   li: a(href='/register') Crear una cuenta
                   li: a(href='/login') Iniciar Sesión
           .nav-content
-            if session.userType == 'Cliente'
-              .container
-                ul.right.hide-on-med-and-down
-                  li
-                    button.btn.button-collapse.right.red(href='#',data-activates='slide-out') Perfil
-            
-      ul#mobile-demo.side-nav.transparent
-        li: a.active(href='/') Inicio
-        li: a.dropdown-button(href='/restaurants', data-activates='dropdown1')   Restaurantes
-        li: a(href='/about') ¿Quienes somos?
-        li: a(href='/plans') Planes
-        if session.userType == 'Cliente'
-          li:  a.button-collapse(href='#', data-activates='slide-out') Perfil
-          li:  a(href='/logout') Salir
-        else
-          li:  a(href='/register') Crear una cuenta
-          li:  a(href='/login') Iniciar Sesión
-  
-      ul#dropdown1.dropdown-content.orange
-        li: a(href='/comida_tradicional') Comida Tradicional
-        li: a(href='/comida_rapida') Comida Rápida
-        li: a(href='/marisqueria') Marisqueria
-        li: a(href='/comida_extranjera') Comida Extranjera
-      ul#dropdown2.dropdown-content.orange
-        li: a(href='/comida_tradicional') Comida Tradicional
-        li: a(href='/comida_rapida') Comida Rápida
-        li: a(href='/marisqueria') Marisqueria
-        li: a(href='/comida_extranjera') Comida Extranjera
-              
+            p holas clas
+    ul#dropdown1.dropdown-content
+      li: a(href='/comida_tradicional') Comida Tradicional
+      li: a(href='/comida_rapida') Comida Rápida
+      li: a(href='/marisqueria') Marisqueria
+      li: a(href='/comida_extranjera') Comida Extranjera
+    ul#dropdown2.dropdown-content
+      li: a.button-collapse(href='#',data-activates='slide-out') #{session.clientData.correo}
+
     main
       block content
 
+    a.button-collapse(href='#', data-activates='slide-out') hola #{session.clientData.correo}
     ul#slide-out.side-nav
       li
         .user-view
           .background: img(src='images/portada_cliente.jpg')
           a: img.circle(src='images/cliente.jpg')
-          if(session.clientData)
-            a: span.amber-text.darken-4-text.name: h4 #{session.clientData.nombre}
-            a: span.amber-text.darken-4-text.email: h6 #{session.clientData.correo}
+          a: span.amber-text.darken-4-text.name: h4 #{session.clientData.nombre}
+          a: span.amber-text.darken-4-text.email: h6 #{session.clientData.correo}
       li: .divider
       li
-        a(href='/client/reservations')
-          i.material-icons note_add
+        a(href='#!')
+          i.material-icons cloud
           | Reservaciones
       li
-        a(href='/client/coupons')
-          i.material-icons new_releases
+        a(href='#!')
+          i.material-icons cloud
           | Cupones
 
     footer.page-footer.red

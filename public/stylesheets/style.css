@@ -5,7 +5,15 @@ main{
 li:hover{
   --background: red;
 }
-
+#mobile-demo li:hover{
+  background-color: orange;
+}
+#mobile-demo li a{
+  color: white;
+}
+#hideUl li a{
+  color: white;
+}
 ul{
    outline:none;
 }

@@ -12,18 +12,25 @@ htmls
     script(type='text/javascript', src='/javascripts/materialize.min.js')
     script(type='text/javascript', src='/javascripts/init.js')
 
-  body(background='images/body.png')
+  body(style="background: url(images/fondo.jpg); background-repeat: repeat;")
     header
       .navbar-fixed
         nav
           .nav-wrapper.red
             .container
               a.brand-logo(href='/')
-               img.responsive-img.transparent(src='../images/logo.jpeg', alt='R',width='64')
+               img.responsive-img.transparent.circle(src='../images/logo.jpeg', alt='R',width='64')
     main
       block content
 
     footer.page-footer.red
+      .container.center
+        a.btn-floating.circle.white(href='https://www.facebook.com/choseat/')
+          img.responsive-img(src='https://cdn.icon-icons.com/icons2/836/PNG/512/Facebook_icon-icons.com_66805.png')
+        a.btn-floating.circle.white(href='https://twitter.com/ChoseatWeb')
+          img.responsive-img(src='https://cdn.icon-icons.com/icons2/555/PNG/512/twitter_icon-icons.com_53611.png')
+        a.btn-floating.circle.white(href='https://www.instagram.com/choseat.web')
+          img.responsive-img(src='https://cdn.icon-icons.com/icons2/1211/PNG/512/1491580658-yumminkysocialmedia06_83104.png')
       .footer-copyright.red
-        .container
+        .container.center
           Copyright &copy 2018 Choseat. Todos los derechos reservados.

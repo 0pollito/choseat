@@ -106,7 +106,8 @@ router.post('/newRestaurant',function(req,res,next){
                 if (data && data.rowAffected) {
                   req.session.user = subscriptorData.nombre+' '+subscriptorData.apellidos;
                   req.session.userType = 'Restaurante';
-                  res.redirect('/restaurantAdmin/home');
+                  req.session.email = subscriptorModel.correo;
+                  res.redirect('/adminRestaurant/profile');
                 }else {
                   console.log('error al insertar user');
                   res.redirect('/new_restaurantCount');

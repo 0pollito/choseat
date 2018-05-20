@@ -1,6 +1,9 @@
 extends layout
 
 block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+  .container.center
+    h1= message
+    h2= error.status
+    h1
+      i.material-icons.large.amber-text sentiment_very_dissatisfied
+
