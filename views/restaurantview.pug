@@ -4,13 +4,14 @@ block content
   .container
     .parallax-container
       .parallax
-        img(src='images/'+dataR.imagenPortada)
+        img(src='images/users/'+dataR.imagenPortada)
       .col.s12.m4
         .row
           .col.s12.m4
             .container
-              img.circle.responsive-img(src='images/'+dataR.imagenPerfil)
-              h4.header #{dataR.nombre}
+              img.circle.responsive-img(src='images/users/'+dataR.imagenPerfil)
+              h5.center #{dataR.clasificacion}
+              h5.header #{dataR.nombre}
               span.white-text.name
                 if dataR.calificacion == 0
                   i.material-icons star_border
@@ -24,9 +25,9 @@ block content
           .card-tabs
             ul.tabs.tabs-fixed-width
               li.tab
-                a(href='#test4') Platillos
+                a.active(href='#test4') Platillos
               li.tab
-                a.active(href='#test5') Ubicación
+                a(href='#test5') Ubicación
               li.tab
                 a(href='#test6') Cupones y promociones
           .card-content.grey.lighten-4
@@ -37,15 +38,17 @@ block content
                     .card.small 
                       .card-image
                         img.materialboxed(src='images/platillos/'+item.imagen,alt='Platillo')
+                        .card-title
+                          .chip.amber: h6: strong $ #{item.precio}.00
                       .card-content
-                        span.card-title.activator.grey-text.text-darken-4= item.nombre
+                        span.card-title.activator.grey-text.text-darken-4.truncate= item.nombre
                           i.material-icons.right more_vert
-                        p= item.nombre
-                        p.truncate= item.descripcion
                       .card-reveal
-                        span.card-title.grey-text.text-darken-4 Descripción
+                        span.card-title.grey-text.text-darken-4 #{item.nombre}
                           i.material-icons.right close
                         p= item.descripcion
+                        h3.center
+                          .chip.amber $ #{item.precio}.00
 
             #test5 
             #test6 

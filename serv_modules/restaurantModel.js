@@ -24,6 +24,36 @@ restaurantModel.getRestaurants = function(callback){
   });
 }
 
+restaurantModel.getCupons = function(idRestaurante,callback){
+  mysqlPool.getConnection(function(err, connection) {
+    if(err) throw err;
+    connection.query("select DATE_FORMAT(fecha_emision, '%d/%m/%y') as emision,DATE_FORMAT(fecha_vencimiento, '%d/%m/%y') as vigencia, imagen from cupon where idRestaurante = ?",[idRestaurante],function(error,rows){
+      if(error){
+        connection.end();
+        throw error;
+      }else{
+        connection.release();
+        callback(null,rows);
+      }
+    });
+  });
+}
+
+restaurantModel.setCupon = function(cuponData,callback){
+  mysqlPool.getConnection(function(err, connection) {
+    if(err) throw err;
+    connection.query('insert into cupon set ? ',cuponData,function(error,rows){
+      if(error){
+        connection.end();
+        throw error;
+      }else{
+        connection.release();
+        callback(null,rows);
+      }
+    });
+  });
+}
+
 restaurantModel.getRestaurantsCat = function(categoria,callback){
   mysqlPool.getConnection(function(err, connection) {
     if(err) throw err;

@@ -56,6 +56,7 @@ router.post('/new_clientCount',function(req,res,next){
               req.session.userType = 'Cliente';
               req.session.email = clientData.user;
               req.session.idClient = insertId;
+              req.session.clientData = clientData;
               res.redirect('/');
             }else {
               console.log('error al insertar user');
@@ -106,7 +107,7 @@ router.post('/newRestaurant',function(req,res,next){
                 if (data && data.rowAffected) {
                   req.session.user = subscriptorData.nombre+' '+subscriptorData.apellidos;
                   req.session.userType = 'Restaurante';
-                  req.session.email = subscriptorModel.correo;
+                  req.session.email = subscriptorData.correo;
                   res.redirect('/adminRestaurant/profile');
                 }else {
                   console.log('error al insertar user');

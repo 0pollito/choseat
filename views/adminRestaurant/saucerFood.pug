@@ -2,14 +2,14 @@ extends layout
 
 block content
   h4 Platillos de Comida
-    if alert.success
-      .card-panel.green-text.text-accent-4#alert
-        h5 #{alert.success}
-          i.close.right.material-icons close
-    if alert.error
-      .card-panel.red-text.text-accent-4#alert
-        h5 #{alert.error}
-          i.close.material-icons close 
+    .row
+      .col.s12.m6.right
+        if alert.success
+          h5.chip.white.green-text.text-accent-4.righ#alert #{alert.success}
+            i.close.right.material-icons close
+        if alert.error
+          h5.chip.white.red-text.text-accent-4.right#alert #{alert.error}
+            i.close.material-icons.right close
   .row
     .col.s12
       .card-panel

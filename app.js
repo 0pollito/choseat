@@ -10,6 +10,7 @@ var countRouter = require('./routes/count');
 var adminRouter = require('./routes/admin');
 var adminRestaurantRouter = require('./routes/adminRestaurant');
 var usersRouter = require('./routes/users');
+var clientsRouter = require('./routes/clients');
 var saucerfoodRouter = require('./routes/saucerFood');
 var restaurantsRouter = require('./routes/restaurants');
 var reservationRouter = require('./routes/reservation');
@@ -39,6 +40,7 @@ app.use(function(req, res, next){
 app.use('/', indexRouter);
 app.use('/count', countRouter);
 app.use('/admin', adminRouter);
+app.use('/client/reservations', clientsRouter);
 app.use('/admin/users', usersRouter);
 app.use('/admin/restaurants', restaurantsRouter);
 app.use('/admin/reservations', reservationRouter);

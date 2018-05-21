@@ -19,10 +19,10 @@ block content
               span.card-title.grey-text.text-darken-4 Descripción
                 i.material-icons.right close
               p= item.descripcion
-            .card-action
+            .card-action.center
               form(method='get',action='/restaurantProfile')
                 input.hide(type='text',name='rest',value=item.idRestaurante)
-                button.btn(type='submit') Ver perfil
+                button.btn.amber(type='submit') Ver perfil
 
 
 

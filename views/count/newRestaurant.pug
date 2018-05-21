@@ -21,7 +21,7 @@ block content
                   input(type='text',name='nombreRestaurant',required)
                   label Nombre:
                 .input-field.col.s12.m4
-                  input(type='text',name='descripcion',required,pattern='[A-Za-z ]+',title='Solo letras.')
+                  input(type='text',name='descripcion',required,pattern='[A-Za-z,. ñáéíóú]+',title='Solo letras.')
                   label Descripción:
                 .input-field.col.s12.m4
                   input(type='text',name='direccion',required)
@@ -43,13 +43,13 @@ block content
                       input(type='text',name='nombre',required,pattern='[A-Za-z]+')
                       label Nombre:
                     .input-field.col.s12.m4
-                      input(type='text',name='apellidos',required,pattern='[A-Za-z ]+')
+                      input(type='text',name='apellidos',required,pattern='[A-Za-z ñáéíóú]+')
                       label Apellidos:
                     .input-field.col.s12.m5
                       input(type='text',name='domicilio',required)
                       label Domicilio:
                     .input-field.col.s12.m2
-                      input(type='text',name='tel',required,pattern='[0-9]+',maxlength='10')
+                      input(type='text',name='tel',required,pattern='[0-9]+',maxlength='10',minlength='10')
                       label Teléfono:
                     .input-field.col.s12.m2
                       input.datepicker(type='text',name='fecha_nac',required)
@@ -76,8 +76,8 @@ block content
                     span.card-title Tarjetas de débito
                     img(src='../images/cards2.png')
                 .input-field.col.s12.m4
-                  input(type='text',name='titular',required,pattern='[A-Za-z ]+')
-                  label Nombre de Titular:
+                  input(type='text',name='titular',required,pattern='[A-Za-z ñáéíóú]+')
+                  label Nombre completo de Titular:
                 .input-field.col.s12.m3
                   input(type='text',name='tarjeta',required,pattern='[0-9]+',maxlength='16',minlength='16')
                   label Num. Tarjeta:
@@ -90,7 +90,7 @@ block content
                   label Fecha de Vencimiento:
                 .input-field.col.s12.m1
                   input(type='text',name='cvc',required,pattern='[0-9]+',maxlength='3',minlength='3')
-                  label CVC:
+                  label CVV:
                   img(src='../images/cvv.png')
           .row
             .col.s12

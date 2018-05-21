@@ -24,7 +24,20 @@ clientModel.getClient = function(idCliente,callback){
     });
   });
 }
-
+clientModel.getCupon = function(idCliente,callback){
+  mysqlPool.getConnection(function(err, connection) {
+    if(err) throw err;
+    connection.query("select c.idCupon,c.descripcion,DATE_FORMAT(c.fecha_emision, '%d/%m/%y') as emision,DATE_FORMAT(c.fecha_vencimiento, '%d/%m/%y') as vencimiento, c.imagen from cupon c left join reservacion r on c.idCupon=r.id_cupon where r.idCliente = ?",[idCliente],function(error,rows){
+      if(error){
+        connection.end();
+        throw error;
+      }else{
+        connection.release();
+        callback(null,rows);
+      }
+    });
+  });
+}
 clientModel.getClientData = function(email,callback){
   mysqlPool.getConnection(function(err, connection) {
     if(err) throw err;

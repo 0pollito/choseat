@@ -16,6 +16,14 @@ var storage = multer.diskStorage({
       callback(null, Date.now() + file.originalname);
     }
   });
+var cupons = multer.diskStorage({
+  destination: function(req, file, callback){
+      callback(null, "./public/images/cupones/");
+  },
+  filename: function(req, file, callback){
+      callback(null, Date.now() + file.originalname);
+    }
+  });
 //imagenUp server
 var platillos = multer.diskStorage({
   destination: function(req, file, callback){
@@ -28,6 +36,7 @@ var platillos = multer.diskStorage({
 var upload = multer({ storage: storage }).single('imagenUp');
 var uploadP = multer({ storage: platillos }).single('imagenUp');
 var uploadUpdate = multer({ storage: storage }).single('imagenUpd');
+var cuponUp = multer({ storage: cupons }).single('imagenUp');
 
 function isNumber(number) {
   return (/^(\d)+((\.)(\d){1,2})?$/.test(number));
@@ -110,7 +119,6 @@ function profile(req, res, alert) {
                     'Comida rápida'];
       restaurantModel.getRestaurant(dataS.idRestaurante,function(error,data){
         if (typeof data != 'undefined' && data.length > 0){
-          console.log(req.session.restaurante);
           req.session.restaurante = data[0];
           res.render('adminRestaurant/profile',{dataR: data[0],dataC: categorias,dataS: dataS, alert: alert});
         }
@@ -123,6 +131,43 @@ function profile(req, res, alert) {
 }
 router.get('/profile',login,function(req,res,next){
   profile(req,res,{});
+});
+
+router.get('/cupons',login,function(req,res,next){
+  cuponsAll(req,res,{});
+});
+router.get('/add_cupon',login,function(req,res,next){
+  cuponsAll(req,res,{});
+});
+
+function cuponsAll(req,res,alert) {
+  var idRestaurante = req.session.restaurante.idRestaurante;
+  restaurantModel.getCupons(idRestaurante,function(error,data){
+    if (typeof data != 'undefined' && data.length > 0)
+      res.render('adminRestaurant/cupon',{dataCou: data,alert: alert});
+    else
+      res.render('adminRestaurant/cupon',{dataCou: [],alert: {error: 'No hay cupones'}});
+  });
+}
+
+router.post('/add_cupon',login,function(req, res, next){
+    var idRestaurante = req.session.restaurante.idRestaurante;
+    cuponUp(req, res, function(err) {//subida de imagen
+      if(err)  return cuponsAll(res,req,{error: 'Error al subir la imagen'});
+       var cuponData = {
+          descripcion: 'Desc',
+          fecha_vencimiento: req.body.vigencia,
+          imagen: req.file.filename,
+          idRestaurante: idRestaurante
+       };
+      restaurantModel.setCupon(cuponData,function(error,data){
+        if (error) cuponsAll(req,res,{error: 'Ocurrio un problema al Guardar el nuevo Cupon'});
+        if (data && data.affectedRows > 0)
+          cuponsAll(req,res,{success: '*Cupon guardado  correctamente'});
+        else
+          cuponsAll(req,res,{error: '*No se realizó ningun cambio'});
+      });
+  });
 });
 
 router.post('/update_Restaurant',login,function(req,res,next){

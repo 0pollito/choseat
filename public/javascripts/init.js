@@ -19,6 +19,10 @@
   $('select').material_select();
   $("select[required]").css({display: "block", height: 0, padding: 0, width: 0, position: 'absolute'});
 
+  setTimeout(function() {
+        $("#alert").fadeOut(1500);
+    },3000);
 
-
+  $('#table_cont').DataTable();
+  $('.chips').material_chip();
 });

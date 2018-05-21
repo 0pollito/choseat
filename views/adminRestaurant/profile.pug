@@ -3,14 +3,14 @@ extends layout
 block content
   h2.blue-text Perfil del Restaurante
   .row
-    p Información de Cuenta
-    .col.s12
-        if alert.success
-          h6.green-text.text-accent-4.right#alert #{alert.success}
-            i.close.right.material-icons close
-        if alert.error
-          h6.red-text.text-accent-4.right#alert  #{alert.error}
-            i.close.material-icons close
+    p: strong Información de Cuenta
+    .col.s12.m6.right
+      if alert.success
+        h5.chip.white.green-text.text-accent-4.righ#alert #{alert.success}
+          i.close.right.material-icons close
+      if alert.error
+        h5.chip.white.red-text.text-accent-4.right#alert #{alert.error}
+          i.close.material-icons.right close
   .divider
   .row
     .col.s12

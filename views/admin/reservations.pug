@@ -24,6 +24,15 @@ block content
         h6.red-text.text-accent-4.right#alert  #{alert.error}
           i.close.material-icons close
   .row
+    .row
+        if alert.success
+          .card-panel.green-text.text-accent-4#alert
+            h5 #{alert.success}
+              i.close.right.material-icons close
+        if alert.error
+          .card-panel.red-text.text-accent-4#alert
+            h5 #{alert.error}
+              i.close.material-icons close
     .col.s12
       .card-panel
         .row
