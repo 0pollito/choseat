@@ -104,10 +104,10 @@ function saucerVi(res,req,alert) {
   });
 }
 
+
+//checarr aquii ---------------------------------------------------
 function profile(req, res, alert) {
   var email = req.session.email;
-  //email= 'juanito@gmail.com';
-  //req.session.email = email;
   var dataS = [];
   subscriptorModel.getSubscriptor(email,function(error,data) {
     if (typeof data != 'undefined' && data.length > 0){
@@ -120,13 +120,26 @@ function profile(req, res, alert) {
       restaurantModel.getRestaurant(dataS.idRestaurante,function(error,data){
         if (typeof data != 'undefined' && data.length > 0){
           req.session.restaurante = data[0];
-          res.render('adminRestaurant/profile',{dataR: data[0],dataC: categorias,dataS: dataS, alert: alert});
+          var dataR = data[0];
+          restaurantModel.getPhones(dataS.idRestaurante,function(error,data){
+            if (typeof data != 'undefined' && data.length > 0){
+              var dataPhones = data;
+              restaurantModel.getHours(dataS.idRestaurante,function(error,data){
+                console.log(data);
+                if (typeof data != 'undefined' && data.length > 0)
+                  res.render('adminRestaurant/profile',{dataHours: data,dataPhones: dataPhones,dataR: dataR,dataC: categorias,dataS: dataS, alert: alert});
+                else
+                  res.render('adminRestaurant/profile',{dataHours:[],dataPhones: dataPhones,dataR: dataR,dataC: categorias,dataS: dataS, alert: alert});
+              });
+            }else
+              res.render('adminRestaurant/profile',{dataHours:[],dataR: dataR,dataPhones: [],dataC: categorias,dataS: dataS, alert: alert});
+          });
         }
         else
-          res.render('adminRestaurant/profile',{dataR: [],dataC: categorias,dataS: dataS, alert: {error: '*No existen registros.'}});
+          res.render('adminRestaurant/profile',{dataHours:[],dataPhones: [],dataR: [],dataC: categorias,dataS: dataS, alert: {error: '*No existen registros.'}});
       });
     }else
-      res.render('adminRestaurant/profile',{dataR: [],dataC: categorias,dataS: dataS,alert: {error: '* No existen registross'}});
+      res.render('adminRestaurant/profile',{dataHours:[],dataPhones: [],dataR: [],dataC: categorias,dataS: dataS,alert: {error: '* No existen registross'}});
   });  
 }
 router.get('/profile',login,function(req,res,next){
@@ -168,6 +181,37 @@ router.post('/add_cupon',login,function(req, res, next){
           cuponsAll(req,res,{error: '*No se realizó ningun cambio'});
       });
   });
+});
+
+router.post('/newTelefono',login,function(req, res, next){
+    var idRestaurante = req.session.restaurante.idRestaurante;
+    var phoneData = {idRestaurante: idRestaurante,telefono: req.body.tel};
+    restaurantModel.setTelefono(phoneData,function(error,data){
+        if (error) profile(req,res,{error: 'Ocurrio un problema al Guardar el nuevo Telefono'});
+        if (data && data.affectedRows > 0)
+          profile(req,res,{success: '*Telefono guardado  correctamente'});
+        else
+          profile(req,res,{error: '*No se realizó ningun cambio'});
+      });
+});
+router.post('/newHorario',login,function(req, res, next){
+    var idRestaurante = req.session.restaurante.idRestaurante;
+    var hourData = {dInicio: req.body.diaI,dFin: req.body.diaF,hinicio: req.body.horaI, hfin: req.body.horaF};
+    restaurantModel.setHorario(hourData,function(error,data){
+        if (error) profile(req,res,{error: 'Ocurrio un problema al Guardar el nuevo horario'});
+        if (data && data.insertId) {
+          var insertId = data.insertId;
+          var hourDataRest = {idHorario: insertId,idRestaurante:idRestaurante};
+          restaurantModel.setHorarioRest(hourDataRest,function(error,data){
+            if (data && data.affectedRows > 0)
+            profile(req,res,{success: '*Horario guardado  correctamente'});
+          else
+            profile(req,res,{error: '*No se realizó ningun cambio'});
+          });
+        }
+        else
+          profile(req,res,{error: '*No se realizó ningun cambio'});
+      });
 });
 
 router.post('/update_Restaurant',login,function(req,res,next){

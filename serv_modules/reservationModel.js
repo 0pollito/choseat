@@ -25,7 +25,7 @@ reservationModel.getReservations = function(callback){
 reservationModel.getReservationClient = function(idClient,callback){
   mysqlPool.getConnection(function(err, connection) {
     if(err) throw err;
-    connection.query("select r.idReservacion,res.nombre,DATE_FORMAT(r.fecha, '%d/%m/%y') as fecha, DATE_FORMAT(r.hora, '%h:%i') as hora, r.num_personas, DATE_FORMAT(r.vigencia, '%d/%m/%y') as vigencia, r.id_cupon, r.estado from reservacion r inner join restaurante res on r.idRestaurante=res.idRestaurante where r.activo= 1 and r.idCliente = ?",[idClient],function(error,rows){
+    connection.query("select r.idReservacion,res.nombre,DATE_FORMAT(r.fecha, '%d/%m/%y') as fecha, DATE_FORMAT(r.hora, '%h:%i') as hora, r.num_personas, DATE_FORMAT(r.vigencia, '%d/%m/%y') as vigencia, r.estado from reservacion r inner join restaurante res on r.idRestaurante=res.idRestaurante where r.activo = 1 and r.idCliente = ?",[idClient],function(error,rows){
       if(error){
         connection.end();
         throw error;
@@ -65,6 +65,20 @@ reservationModel.setReservation = function(reservationData,callback){
   });
 }
 
+reservationModel.cancelReservation = function(idReservacion,callback){
+  mysqlPool.getConnection(function(err, connection) {
+    if(err) throw err;
+    connection.query("update reservacion set estado = 'Cancelada' where idReservacion =  ?",[idReservacion],function(error,rows){
+      if(error){
+        connection.end();
+        throw error;
+      }else{
+        connection.release();
+        callback(null,rows);
+      }
+    });
+  });
+}
 reservationModel.delReservation = function(idReservacion,callback){
   mysqlPool.getConnection(function(err, connection) {
     if(err) throw err;

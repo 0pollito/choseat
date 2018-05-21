@@ -40,7 +40,6 @@ block content
                     th Hora
                     th N. Personas
                     th Vigencia
-                    th Cupon
                     th Estado
                 tbody
                   each item in dataRs
@@ -51,7 +50,6 @@ block content
                       td= item.hora
                       td= item.num_personas
                       td= item.vigencia
-                      td= item.id_cupon
                       td= item.estado
 
       #insert.modal.bottom-sheet
@@ -59,7 +57,7 @@ block content
           h4 Agregar Nueva Reservación 
             a.modal-action.modal-close.waves-effect.waves-green.btn-flat.right
               i.material-icons close
-          form#formInsert.center(method='post', action='/admin/reservations/new_Reservation')
+          form#formInsert.center(method='post', action='/client/reservations/new_Reservation')
             .row
               .input-field.col.s12.m3
                 select.validate(name='selectRest',required)
@@ -87,7 +85,7 @@ block content
           h4 Cancelar Reservación
             a.modal-action.modal-close.waves-effect.waves-green.btn-flat.right
               i.material-icons close
-          form#formEliminar.center(method='post',action='/admin/reservations/del_Reservation')
+          form#formEliminar.center(method='post',action='/client/reservations/del_Reservation')
             .row
               .input-field.col.s12.m2.offset-m5
                 select.validate(name='selectDelRes',required)
@@ -105,10 +103,10 @@ block content
           h4 Modificar Reservación
             a.modal-action.modal-close.waves-effect.waves-green.btn-flat.right
               i.material-icons close
-          form#formModificar.center(method='post',action='/admin/reservations/update_Reservation')
+          form#formModificar.center(method='post',action='/client/reservations/update_Reservation')
             .row
               .input-field.col.s12.m2
-                select.validate(name='selectResupdate',required)
+                select.validate(name='selectRsupdate',required)
                   option(value='', disabled, selected) Seleccionar
                   each item in dataRs
                     option(value=item.idReservacion)= item.idReservacion

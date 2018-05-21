@@ -58,16 +58,32 @@ router.get('/restaurantProfile',function(req,res,next){
 function saucerFoodAllforRest(res,idRestaurante,alert) {
   saucerFoodModel.getSaucerFoodRest(idRestaurante,function(error,data) {
     var dataP = [];
+    var dataCou = [];
+    var dataPhones = [];
+    var dataHours = [];
     if (typeof data != 'undefined' && data.length > 0) {
       dataP = data;
       restaurantModel.getRestaurant(idRestaurante,function(error,data) {
-        if (typeof data != 'undefined' && data.length > 0) 
-          res.render('restaurantview', {dataP: dataP, dataR: data[0], alert: alert});
-        else
-          res.render('restaurantview', {dataP: dataP,dataR: {}, alert: alert});
+        if (typeof data != 'undefined' && data.length > 0){ 
+         var dataR = data[0];
+          restaurantModel.getCupons(idRestaurante,function(error,data){
+            if (typeof data != 'undefined' && data.length > 0)
+              dataCou = data;
+            restaurantModel.getPhones(idRestaurante,function(error,data){
+              if (typeof data != 'undefined' && data.length > 0)
+                dataPhones = data;
+              restaurantModel.getHours(idRestaurante,function(error,data){
+                if (typeof data != 'undefined' && data.length > 0)
+                  dataHours = data;
+                res.render('restaurantview', {dataP: dataP,dataR: dataR,dataPhones: dataPhones,dataHours:dataHours, alert: alert});
+              });
+            });
+          });
+        }else
+          res.render('restaurantview', {dataP: dataP,dataR: {},dataPhones: dataPhones,dataHours:dataHours, alert: alert});
       });
     }else{
-      res.render('restaurantview', {dataP: [],dataR: {}, alert: {error: 'No existen registros.'}});
+      res.render('restaurantview', {dataP: [],dataR: {},dataPhones: dataPhones,dataHours:dataHours, alert: {error: 'No existen registros.'}});
     }
   });
 }

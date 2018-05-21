@@ -46,6 +46,55 @@ block content
                     option= item
               label Clasificación:
             button.btn.green.darken-1(type='submit') Actualizar
+      .row
+        .divider
+        .section
+          .col.s12.m2
+            h5 Horarios
+            each item in dataHours
+              p #{item.dInicio} a #{item.dFin} de #{item.hinicio} a #{item.hfin}
+          .col.s12.m4
+            form#formModificar.center(method='post',action='/adminRestaurant/newHorario')
+              .input-field.col.s12.m6
+                select.validate(name='diaI',required)
+                  option(value='', disabled, selected) Seleccionar
+                  option Lunes
+                  option Martes
+                  option Miercoles
+                  option Jueves
+                  option Viernes
+                  option Sabado
+                  option domingo
+              .input-field.col.s12.m6
+                select.validate(name='diaF',required)
+                  option(value='', disabled, selected) Seleccionar
+                  option Lunes
+                  option Martes
+                  option Miercoles
+                  option Jueves
+                  option Viernes
+                  option Sabado
+                  option domingo
+              .input-field.col.s12.m6
+                input.timepicker(type='text', name='horaI', required)
+                label De:
+              .input-field.col.s12.m6
+                input.timepicker(type='text', name='horaF', required)
+                label Hasta:
+              button.btn.green.darken-1(type='submit') Agregar
+          .col.s12.m2
+            h5 Telefonos
+            each item in dataPhones
+              p #{item.telefono}
+            
+        .col.s12.m4
+          form#formModificar.center(method='post',action='/adminRestaurant/newTelefono')
+            .input-field.col.s12
+              input(type='text',name='tel',required,pattern='[0-9]+')
+              label Teléfono:
+            button.btn.green.darken-1(type='submit') Agregar
+        .divider
+
     #photosData.col.s12
       .row
         .col.s12.m6

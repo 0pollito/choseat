@@ -52,9 +52,9 @@ router.get('/coupons',login,function(req,res,next){
     idCliente = req.session.idClient;
   else
     idCliente = req.session.clientData.idCliente;
-  clientModel.getCupon(idCliente,function(error,data) {
+  restaurantModel.getRestauranRes(idCliente,function(error,data) {
     if (typeof data != 'undefined' && data.length > 0) {
-      res.render('client/coupon', {dataCou: data,alert: alert});
+      res.render('client/coupon', {dataCou: data,alert: {}});
     }else{
       res.render('client/coupon', {dataCou: [], alert: {error: 'No cuentas con cupones'}});
     }
@@ -85,15 +85,48 @@ router.post('/new_Reservation',login,function(req,res,next){
     idCliente: idCliente,
     idRestaurante: req.body.selectRest,
   };
-  if((req.body.cupon).length > 0)
-    reservationData.id_cupon = req.body.cupon;
+  /*if((req.body.cupon).length > 0)
+    reservationData.id_cupon = req.body.cupon; */
 
   reservationModel.setReservation(reservationData,function(error,data) {
-    if (error) reservationsAll(res,{error: 'Ocurrio un problema al insertar la nueva Reservación'});
+    if (error) reservationsAll(req,res,{error: 'Ocurrio un problema al insertar la nueva Reservación'});
     if (data && data.affectedRows > 0)
-      reservationsAll(res,{success: '*Reservación agregada  correctamente'});
+      reservationsAll(req,res,{success: '*Reservación agregada  correctamente'});
     else
-      reservationsAll(res,{error: '*No se realizó ningun cambio'});
+      reservationsAll(req,res,{error: '*No se realizó ningun cambio'});
+  });
+});
+
+//ocuupan login
+router.post('/del_Reservation',login,function(req, res, next){
+    var idReservation = req.body.selectDelRes;
+    reservationModel.cancelReservation(idReservation,function(error,data){
+      if (data && data.affectedRows > 0)
+        reservationsAll(req,res,{success: '*La Reservación se cancelo correctamente'});
+      else
+        reservationsAll(req,res,{error: '*Ocurrio un problema al cancelar la Reservación'});
+    });
+});
+router.post('/update_Reservation',login,function(req,res,next){
+  var idCliente;
+  if(!req.session.clientData.idCliente)
+    idCliente = req.session.idClient;
+  else
+    idCliente = req.session.clientData.idCliente;
+  var reservationData = {
+    fecha: req.body.fechaupdate,
+    hora: req.body.horaupdate,
+    num_personas: req.body.personasupdate,
+    vigencia: req.body.vigenciaupdate,
+    idCliente: idCliente,
+    idRestaurante: req.body.selectRestupdate
+  };
+
+  reservationModel.updateReservation([reservationData,req.body.selectRsupdate],function(error,data){
+    if (error)
+      reservationsAll(req,res,{success: 'Ocurrio un error al actualizar la Reservación'});
+    else
+      reservationsAll(req,res,{error: '*Reservación Actualizada correctamente'});
   });
 });
 

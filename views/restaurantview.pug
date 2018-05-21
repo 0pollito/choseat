@@ -27,7 +27,7 @@ block content
               li.tab
                 a.active(href='#test4') Platillos
               li.tab
-                a(href='#test5') Ubicación
+                a(href='#test5') Información
               li.tab
                 a(href='#test6') Cupones y promociones
           .card-content.grey.lighten-4
@@ -51,7 +51,42 @@ block content
                           .chip.amber $ #{item.precio}.00
 
             #test5 
+              .container
+                .row
+                  h4.center #{dataR.nombre}
+                  .section
+                    h5 Descripción:
+                      i.material-icons.left.orange-text description
+                    p #{dataR.descripcion}
+                  .section
+                    h5 Dirección:
+                      i.material-icons.left.orange-text pin_drop
+                    p #{dataR.direccion}
+                  .section 
+                    h5 Horarios:
+                      i.material-icons.left.orange-text timer
+                    each item in dataHours
+                      p #{item.dInicio} a #{item.dFin} de #{item.hinicio} a #{item.hfin}
+                  .section
+                    h5 Teléfonos:
+                     i.material-icons.left.orange-text contact_phone 
+                    each item in dataPhones
+                     p #{item.telefono}
             #test6 
+              if(session.clientData)
+                .row
+                  each item in dataCou
+                    .col.s12.m6.l4
+                      .card.medium 
+                        .card-image
+                          img.materialboxed(src='../images/cupones/'+item.imagen,alt='Cupon')
+                        .card-content
+                          span.card-title.activator.grey-text.text-darken-4 Descubre el regalo
+                          p Generado el #{item.emision}
+                          p Vigente hasta #{item.vigencia}
+                          p Descubre el contenido del cupon con tu celular.
+              else
+                h6 Inicia sesión para poder ver los cupones de este Restaurante.
 
 
 

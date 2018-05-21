@@ -24,6 +24,21 @@ restaurantModel.getRestaurants = function(callback){
   });
 }
 
+restaurantModel.getRestauranRes = function(idCliente,callback){
+  mysqlPool.getConnection(function(err, connection) {
+    if(err) throw err;
+    connection.query("select DATE_FORMAT(c.fecha_emision, '%d/%m/%y') as emision,DATE_FORMAT(c.fecha_vencimiento, '%d/%m/%y') as vencimiento,c.imagen, r.nombre from cupon c inner join restaurante r on c.idRestaurante=r.idRestaurante where r.idRestaurante in (select idRestaurante from  reservacion where idCliente = ? group by idRestaurante HAVING COUNT(idReservacion) = 1)",[idCliente],function(error,rows){
+      if(error){
+        connection.end();
+        throw error;
+      }else{
+        connection.release();
+        callback(null,rows);
+      }
+    });
+  });
+}
+
 restaurantModel.getCupons = function(idRestaurante,callback){
   mysqlPool.getConnection(function(err, connection) {
     if(err) throw err;
@@ -45,6 +60,77 @@ restaurantModel.setCupon = function(cuponData,callback){
     connection.query('insert into cupon set ? ',cuponData,function(error,rows){
       if(error){
         connection.end();
+        throw error;
+      }else{
+        connection.release();
+        callback(null,rows);
+      }
+    });
+  });
+}
+restaurantModel.setTelefono = function(phoneData,callback){
+  mysqlPool.getConnection(function(err, connection) {
+    if(err) throw err;
+    connection.query('insert into telefono set ? ',phoneData,function(error,rows){
+      if(error){
+        connection.end();
+        throw error;
+      }else{
+        connection.release();
+        callback(null,rows);
+      }
+    });
+  });
+}
+restaurantModel.getPhones = function(idRestaurante,callback){
+  mysqlPool.getConnection(function(err, connection) {
+    if(err) throw err;
+    connection.query('select telefono from telefono where idRestaurante = ? ',[idRestaurante],function(error,rows){
+      if(error){
+        connection.end();
+        throw error;
+      }else{
+        connection.release();
+        callback(null,rows);
+      }
+    });
+  });
+}
+restaurantModel.setHorario = function(hourData,callback){
+  mysqlPool.getConnection(function(err, connection) {
+    if(err) throw err;
+    connection.query('insert into horario set ? ',hourData,function(error,rows){
+      if(error){
+        connection.end();
+        throw error;
+      }else{
+        connection.release();
+        callback(null,rows);
+      }
+    });
+  });
+}
+restaurantModel.setHorarioRest = function(hourData,callback){
+  mysqlPool.getConnection(function(err, connection) {
+    if(err) throw err;
+    connection.query('insert into horario_restaurante set ? ',hourData,function(error,rows){
+      if(error){
+        connection.end();
+        throw error;
+      }else{
+        connection.release();
+        callback(null,rows);
+      }
+    });
+  });
+}
+
+restaurantModel.getHours = function(idRestaurante,callback){
+  mysqlPool.getConnection(function(err, connection) {
+    if(err) throw err;
+    connection.query("select h.dInicio,h.dFin,DATE_FORMAT(h.hInicio, '%h:%i') as hinicio, DATE_FORMAT(h.hFin, '%h:%i') as hfin from horario h inner join horario_restaurante hr on h.idHorario=hr.idHorario where hr.idRestaurante = ?",[idRestaurante],function(error,rows){
+      if(error){
+        connection.release();
         throw error;
       }else{
         connection.release();
