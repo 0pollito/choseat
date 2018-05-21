@@ -9,7 +9,6 @@ var clientModel = require('../serv_modules/clientModel');
 router.get('/', function(req, res, next) {
   if (!req.session.clientData)
     req.session.clientData = {};
-  console.log(req.session.clientData);
   clientModel.getComments(function(error,data) {
     res.render('index',{dataP: [], comments: data});
   });
@@ -111,8 +110,14 @@ router.get('/comida_extranjera',function(req,res){
 });
 
 router.post('/search',function(req,res){
+  var dataP = [];
   saucerFoodModel.getSearch(req.body.search,function(error,data) {
-    res.render('index',{dataP: data, message: 'Se encontraron '+data.length+' resultados'});
+     dataP = data;
+    if (!req.session.clientData)
+      req.session.clientData = {};
+    clientModel.getComments(function(error,data) {
+      res.render('index',{dataP: dataP,comments: data, message: 'Se encontraron '+dataP.length+' resultados'});
+    });
   });
 });
 
