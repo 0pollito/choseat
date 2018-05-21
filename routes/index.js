@@ -4,7 +4,7 @@ var userModel = require('../serv_modules/userModel');
 var saucerFoodModel = require('../serv_modules/saucerFoodModel');
 var restaurantModel = require('../serv_modules/restaurantModel');
 var clientModel = require('../serv_modules/clientModel');
-
+ 
 /* GET home page public. */
 router.get('/', function(req, res, next) {
   if (!req.session.clientData)
@@ -74,7 +74,8 @@ function saucerFoodAllforRest(res,idRestaurante,alert) {
               restaurantModel.getHours(idRestaurante,function(error,data){
                 if (typeof data != 'undefined' && data.length > 0)
                   dataHours = data;
-                res.render('restaurantview', {dataP: dataP,dataR: dataR,dataPhones: dataPhones,dataHours:dataHours, alert: alert});
+                console.log(dataPhones);
+                res.render('restaurantview', {dataP: dataP,dataR: dataR,dataPhones: dataPhones,dataHours:dataHours, dataCou: dataCou, alert: alert});
               });
             });
           });
